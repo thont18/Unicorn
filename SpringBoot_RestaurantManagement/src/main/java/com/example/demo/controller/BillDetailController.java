@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exeption.ResourceNotFoundExeption;
-import com.example.demo.models.Bill;
+import com.example.demo.exception.ResourceNotFoundExeption;
 import com.example.demo.models.BillDetails;
 import com.example.demo.models.BillDetailsId;
 import com.example.demo.service.BillDetailService;

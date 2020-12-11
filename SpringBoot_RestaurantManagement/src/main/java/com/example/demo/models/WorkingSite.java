@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "WORKING_SITES")
 public class WorkingSite {
@@ -25,9 +27,81 @@ public class WorkingSite {
 	@Column(nullable = false)
 	private WorkingSiteStatus status;
 	
-	@OneToMany(mappedBy = "site", orphanRemoval = true, cascade = CascadeType.ALL)
+	@JsonBackReference
+	@OneToMany(mappedBy = "site", cascade = CascadeType.ALL)
 	private List<Employee> employees;
-	
-	@OneToMany(mappedBy = "site", orphanRemoval = true, cascade = CascadeType.ALL)
+
+	@JsonBackReference(value = "site")
+	@OneToMany(mappedBy = "site", cascade = CascadeType.ALL)
 	private List<BookingTable> tables;
+
+	public WorkingSite(Long id, String name, WorkingSiteStatus status, List<Employee> employees,
+			List<BookingTable> tables) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.status = status;
+		this.employees = employees;
+		this.tables = tables;
+	}
+
+	public WorkingSite(Long id, String name, WorkingSiteStatus status) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.status = status;
+	}
+
+	public WorkingSite() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public WorkingSite(String name, WorkingSiteStatus status) {
+		super();
+		this.name = name;
+		this.status = status;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public WorkingSiteStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(WorkingSiteStatus status) {
+		this.status = status;
+	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+
+	public List<BookingTable> getTables() {
+		return tables;
+	}
+
+	public void setTables(List<BookingTable> tables) {
+		this.tables = tables;
+	}
+	
+	
+
 }

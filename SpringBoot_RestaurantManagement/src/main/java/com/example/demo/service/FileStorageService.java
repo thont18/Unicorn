@@ -1,4 +1,4 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

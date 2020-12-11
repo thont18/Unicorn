@@ -37,7 +37,6 @@ public class Product {
 	@Column
 	private String description;
 
-<<<<<<< HEAD
 	@JsonBackReference(value = "product1")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_type_id")
@@ -47,18 +46,7 @@ public class Product {
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<BillDetails> billDetails;
 	
-	@JsonBackReference(value = "product3")
-=======
-	@ManyToOne
-	@JoinColumn(name = "product_type_id")
-	private ProductType productType;
-
 	@JsonBackReference(value = "product")
-	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
-	private List<BillDetails> billDetails;
-	
-	@JsonBackReference(value = "product")
->>>>>>> cbb25ca45a91ec6d770af2378c3f8fbbf2086750
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<IngredientDetails> ingredientDetails;
 

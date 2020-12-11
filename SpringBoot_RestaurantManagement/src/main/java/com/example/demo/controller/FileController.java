@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.Service.FileStorageService;
-import com.example.demo.Service.ProductService;
 import com.example.demo.dao.UploadFileResponse;
+import com.example.demo.service.FileStorageService;
+import com.example.demo.service.ProductService;
 
 
 @CrossOrigin

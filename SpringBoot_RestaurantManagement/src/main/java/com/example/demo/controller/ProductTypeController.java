@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.demo.Service.ProductTypeService;
 import com.example.demo.models.ProductType;
+import com.example.demo.service.ProductTypeService;
 
 @CrossOrigin
 @RestController

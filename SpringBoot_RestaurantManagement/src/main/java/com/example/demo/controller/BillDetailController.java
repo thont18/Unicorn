@@ -41,6 +41,7 @@ public class BillDetailController {
 	}
 	@PostMapping("/billDetail/{billId}_{producId}")
 	public BillDetails createBillDetail(@RequestBody BillDetails billDetails,@PathVariable Long billId,@PathVariable Long producId) {
+	
 		return bds.save(billDetails);
 	}
 	@PutMapping("/billDetail/{billId}_{producId}")

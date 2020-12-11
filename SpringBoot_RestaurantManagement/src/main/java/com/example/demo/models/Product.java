@@ -14,12 +14,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "PRODUCTS")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(length = 100, nullable = false, unique = true)
+	private String code;
 	@Column(length = 100, nullable = false)
 	private String name;
 	@Column(length = 30, nullable = false)
@@ -30,42 +34,27 @@ public class Product {
 	private ProductStatus status;
 	@Column(columnDefinition = "TEXT")
 	private String image;
-	@Column
+	@Column(length = 200)
 	private String description;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_type_id")
 	private ProductType productType;
 
-	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
+	@JsonBackReference(value = "product")
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<BillDetails> billDetails;
 
-	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
+	@JsonBackReference(value = "product")
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<IngredientDetails> ingredientDetails;
 
-	public Product() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Product(String name, String unit, Double price, ProductStatus status, String image, String description,
-			ProductType productType, List<BillDetails> billDetails, List<IngredientDetails> ingredientDetails) {
-		super();
-		this.name = name;
-		this.unit = unit;
-		this.price = price;
-		this.status = status;
-		this.image = image;
-		this.description = description;
-		this.productType = productType;
-		this.billDetails = billDetails;
-		this.ingredientDetails = ingredientDetails;
-	}
-
-	public Product(Long id, String name, String unit, Double price, ProductStatus status, String image,
+	public Product(Long id, String code, String name, String unit, Double price, ProductStatus status, String image,
 			String description, ProductType productType, List<BillDetails> billDetails,
 			List<IngredientDetails> ingredientDetails) {
 		super();
 		this.id = id;
+		this.code = code;
 		this.name = name;
 		this.unit = unit;
 		this.price = price;
@@ -75,6 +64,39 @@ public class Product {
 		this.productType = productType;
 		this.billDetails = billDetails;
 		this.ingredientDetails = ingredientDetails;
+	}
+
+	public Product(String code, String name, String unit, Double price, ProductStatus status, String image,
+			String description, ProductType productType, List<BillDetails> billDetails,
+			List<IngredientDetails> ingredientDetails) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.unit = unit;
+		this.price = price;
+		this.status = status;
+		this.image = image;
+		this.description = description;
+		this.productType = productType;
+		this.billDetails = billDetails;
+		this.ingredientDetails = ingredientDetails;
+	}
+
+	public Product(String code, String name, String unit, Double price, ProductStatus status, String image,
+			String description, ProductType productType) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.unit = unit;
+		this.price = price;
+		this.status = status;
+		this.image = image;
+		this.description = description;
+		this.productType = productType;
+	}
+
+	public Product() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public Long getId() {
@@ -83,6 +105,14 @@ public class Product {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getName() {
@@ -141,4 +171,19 @@ public class Product {
 		this.productType = productType;
 	}
 
+	public List<BillDetails> getBillDetails() {
+		return billDetails;
+	}
+
+	public void setBillDetails(List<BillDetails> billDetails) {
+		this.billDetails = billDetails;
+	}
+
+	public List<IngredientDetails> getIngredientDetails() {
+		return ingredientDetails;
+	}
+
+	public void setIngredientDetails(List<IngredientDetails> ingredientDetails) {
+		this.ingredientDetails = ingredientDetails;
+	}
 }

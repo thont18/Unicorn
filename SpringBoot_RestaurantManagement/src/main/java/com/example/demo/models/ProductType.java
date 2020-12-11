@@ -25,7 +25,7 @@ public class ProductType {
 	private String description;
 
 	@JsonBackReference
-	@OneToMany(mappedBy = "productType", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "productType", cascade = CascadeType.ALL)
 	private List<Product> products;
 
 	public ProductType(Long id, String name, String description) {

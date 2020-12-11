@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "BOOKING_TABLES")
 public class BookingTable {
@@ -28,10 +31,89 @@ public class BookingTable {
 	@Column(nullable = false)
 	private BookingTableStatus status;
 	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "site_id")
 	private WorkingSite site;
-	
+
+	@JsonBackReference
 	@OneToMany(mappedBy = "table", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Bill> bills;
+
+	public BookingTable(Long id, String code, BookingTableStatus status, WorkingSite site, List<Bill> bills) {
+		super();
+		this.id = id;
+		this.code = code;
+		this.status = status;
+		this.site = site;
+		this.bills = bills;
+	}
+
+	public BookingTable(String code, BookingTableStatus status, WorkingSite site, List<Bill> bills) {
+		super();
+		this.code = code;
+		this.status = status;
+		this.site = site;
+		this.bills = bills;
+	}
+
+	public BookingTable(Long id, String code, BookingTableStatus status, WorkingSite site) {
+		super();
+		this.id = id;
+		this.code = code;
+		this.status = status;
+		this.site = site;
+	}
+
+	public BookingTable(String code, BookingTableStatus status, WorkingSite site) {
+		super();
+		this.code = code;
+		this.status = status;
+		this.site = site;
+	}
+
+	public BookingTable() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public BookingTableStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(BookingTableStatus status) {
+		this.status = status;
+	}
+
+	public WorkingSite getSite() {
+		return site;
+	}
+
+	public void setSite(WorkingSite site) {
+		this.site = site;
+	}
+
+	public List<Bill> getBills() {
+		return bills;
+	}
+
+	public void setBills(List<Bill> bills) {
+		this.bills = bills;
+	}
+
 }

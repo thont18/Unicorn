@@ -45,7 +45,7 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<BillDetails> billDetails;
 
-	@JsonBackReference(value = "product")
+	@JsonBackReference(value = "product2")
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<IngredientDetails> ingredientDetails;
 

@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "PRODUCTS")
 public class Product {
@@ -33,13 +35,16 @@ public class Product {
 	@Column
 	private String description;
 
+	@JsonBackReference(value = "product1")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_type_id")
 	private ProductType productType;
-
+	
+	@JsonBackReference(value = "product2")
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<BillDetails> billDetails;
-
+	
+	@JsonBackReference(value = "product3")
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<IngredientDetails> ingredientDetails;
 

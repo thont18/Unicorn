@@ -22,11 +22,11 @@ public class IngredientDetails implements Serializable {
 	@EmbeddedId
 	private IngredientDetailsId id = new IngredientDetailsId();
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@MapsId("ingredientId")
 	private Ingredient ingredient;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@MapsId("productId")
 	private Product product;
 
@@ -35,6 +35,21 @@ public class IngredientDetails implements Serializable {
 
 	public IngredientDetails() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public IngredientDetails(IngredientDetailsId id, Ingredient ingredient, Product product, Integer amount) {
+		super();
+		this.id = id;
+		this.ingredient = ingredient;
+		this.product = product;
+		this.amount = amount;
+	}
+
+	public IngredientDetails(Ingredient ingredient, Product product, Integer amount) {
+		super();
+		this.ingredient = ingredient;
+		this.product = product;
+		this.amount = amount;
 	}
 
 	public IngredientDetailsId getId() {

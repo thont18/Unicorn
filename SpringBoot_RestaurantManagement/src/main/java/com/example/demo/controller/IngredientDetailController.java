@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exeption.ResourceNotFoundExeption;
+import com.example.demo.exception.ResourceNotFoundExeption;
 import com.example.demo.models.Ingredient;
 import com.example.demo.models.IngredientDetails;
 import com.example.demo.models.IngredientDetailsId;

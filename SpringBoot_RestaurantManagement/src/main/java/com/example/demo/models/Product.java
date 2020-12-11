@@ -22,6 +22,8 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(length = 100, nullable = false, unique = true)
+	private String code;
 	@Column(length = 100, nullable = false)
 	private String name;
 	@Column(length = 30, nullable = false)
@@ -35,6 +37,7 @@ public class Product {
 	@Column
 	private String description;
 
+<<<<<<< HEAD
 	@JsonBackReference(value = "product1")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_type_id")
@@ -45,6 +48,17 @@ public class Product {
 	private List<BillDetails> billDetails;
 	
 	@JsonBackReference(value = "product3")
+=======
+	@ManyToOne
+	@JoinColumn(name = "product_type_id")
+	private ProductType productType;
+
+	@JsonBackReference(value = "product")
+	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<BillDetails> billDetails;
+	
+	@JsonBackReference(value = "product")
+>>>>>>> cbb25ca45a91ec6d770af2378c3f8fbbf2086750
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<IngredientDetails> ingredientDetails;
 
@@ -80,6 +94,15 @@ public class Product {
 		this.productType = productType;
 		this.billDetails = billDetails;
 		this.ingredientDetails = ingredientDetails;
+	}
+
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Long getId() {

@@ -24,25 +24,25 @@ import com.example.demo.service.BillDetailService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("api")
+@RequestMapping("/billDetail")
 public class BillDetailController {
 	@Autowired
 	private BillDetailService bds;
 	
-	@GetMapping("/billDetail")
+	@GetMapping()
 	public List<BillDetails> getBillDetail(){
 		return this.bds.listAll();
 	}
-	@GetMapping("/billDetail/{billId}_{producId}")
+	@GetMapping("/{billId}_{producId}")
 	public Optional<BillDetails> getBillDetailsById(@PathVariable Long billId,@PathVariable Long producId) {
 		return this.bds.findById(billId,producId);
 	}
-	@PostMapping("/billDetail/{billId}_{producId}")
+	@PostMapping("/{billId}_{producId}")
 	public BillDetails createBillDetail(@RequestBody BillDetails billDetails,@PathVariable Long billId,@PathVariable Long producId) {
 	
 		return bds.save(billDetails);
 	}
-	@PutMapping("/billDetail/{billId}_{producId}")
+	@PutMapping("/{billId}_{producId}")
 	 public ResponseEntity<BillDetails> updateBillDetails(@RequestBody BillDetails billDetails, @PathVariable Long billId,@PathVariable Long producId) {
 		BillDetails billDt=bds.findById(billId,producId).orElseThrow(()->
 		new ResourceNotFoundExeption("Billdetail not exist"));  
@@ -55,7 +55,7 @@ public class BillDetailController {
 		
 	}
 	
-	@DeleteMapping("/billDetail/{billId}_{productId}")
+	@DeleteMapping("/{billId}_{productId}")
 	 public  Map<String,Boolean> deleteBill(@PathVariable Long billId,@PathVariable Long productId) {
 		BillDetails billDt=bds.findById(billId,productId).orElseThrow(()->
 		new ResourceNotFoundExeption("Billdetail not exist"));  

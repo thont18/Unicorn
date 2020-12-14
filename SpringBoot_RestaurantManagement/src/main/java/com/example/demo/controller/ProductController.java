@@ -8,9 +8,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,7 +59,7 @@ public class ProductController {
 	}
 
 	@PostMapping(consumes = "multipart/form-data")
-	public ResponseEntity<?> createProducts(@RequestParam("code") String code ,@RequestParam("name") String name,
+	public ResponseEntity<?> createProducts(@RequestParam("code") String code, @RequestParam("name") String name,
 			@RequestParam("proTypeId") Long proTypeId, @RequestParam("unit") String unit,
 			@RequestParam("price") Double price, @RequestParam("status") ProductStatus status,
 			@RequestParam("description") String description, @RequestParam("photo") MultipartFile photo) {
@@ -68,7 +70,6 @@ public class ProductController {
 		Product crePro = new Product();
 		ProductType proType = proTypeSer.get(proTypeId);
 		String fileName = code + "_" + fileStorageService.storeFile(photo);
-//		String fileName = fileStorageService.storeFile(photo);
 
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
 				.path(fileName).toUriString();
@@ -86,5 +87,68 @@ public class ProductController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.set("MyHeader", "MyValue");
 		return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+	}
+
+	@PutMapping(value = "/updateProduct/{id}", consumes = "multipart/form-data")
+	public ResponseEntity<?> editProducts(@PathVariable("id") Long id, @RequestParam("code") String code,
+			@RequestParam("name") String name, @RequestParam("proTypeId") Long proTypeId,
+			@RequestParam("unit") String unit, @RequestParam("price") Double price,
+			@RequestParam("status") ProductStatus status, @RequestParam("description") String description,
+			@RequestParam("photo") MultipartFile photo) {
+		if (photo.isEmpty()) {
+			HttpStatus.valueOf("Photo not found!");
+		}
+
+		Product crePro = proSer.get(id).get();
+		ProductType proType = proTypeSer.get(proTypeId);
+		String fileName = code + "_" + fileStorageService.storeFile(photo);
+
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
+				.path(fileName).toUriString();
+		crePro.setName(name);
+		crePro.setProductType(proType);
+		crePro.setUnit(unit);
+		crePro.setPrice(price);
+		crePro.setStatus(status);
+		crePro.setCode(code);
+		crePro.setDescription(description);
+		crePro.setImage(fileDownloadUri);
+
+		this.proSer.save(crePro);
+		Product savePro = this.proSer.save(crePro);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.set("MyHeader", "MyValue");
+		return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+	}
+
+	@PutMapping(value = "/updateWTProduct/{id}", consumes = "multipart/form-data")
+	public ResponseEntity<?> editWTProducts(@PathVariable("id") Long id, @RequestParam("code") String code,
+			@RequestParam("name") String name, @RequestParam("proTypeId") Long proTypeId,
+			@RequestParam("unit") String unit, @RequestParam("price") Double price,
+			@RequestParam("status") ProductStatus status, @RequestParam("description") String description) {
+
+		Product crePro = proSer.get(id).get();
+		ProductType proType = proTypeSer.get(proTypeId);
+
+		crePro.setName(name);
+		crePro.setProductType(proType);
+		crePro.setUnit(unit);
+		crePro.setPrice(price);
+		crePro.setStatus(status);
+		crePro.setCode(code);
+		crePro.setDescription(description);
+
+		this.proSer.save(crePro);
+		Product savePro = this.proSer.save(crePro);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.set("MyHeader", "MyValue");
+		return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+	}
+
+	@DeleteMapping("/{id}")
+	public Product deleteProduct(@PathVariable("id") Long id) {
+		Product product = proSer.get(id).get();
+		proSer.delete(product.getId());
+		return product;
 	}
 }

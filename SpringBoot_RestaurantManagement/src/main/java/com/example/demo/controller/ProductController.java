@@ -121,8 +121,8 @@ public class ProductController {
 		return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
 	}
 
-	@PutMapping(value = "/updateWTProduct/{id}", consumes = "multipart/form-data")
-	public ResponseEntity<?> updateWTProducts(@PathVariable("id") Long id, @RequestParam("code") String code,
+	@PutMapping(value = "/updateProductWTI/{id}", consumes = "multipart/form-data")
+	public ResponseEntity<?> updateProductWTI(@PathVariable("id") Long id, @RequestParam("code") String code,
 			@RequestParam("name") String name, @RequestParam("proTypeId") Long proTypeId,
 			@RequestParam("unit") String unit, @RequestParam("price") Double price,
 			@RequestParam("status") ProductStatus status, @RequestParam("description") String description) {

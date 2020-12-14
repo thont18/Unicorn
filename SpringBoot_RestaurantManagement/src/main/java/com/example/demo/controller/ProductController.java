@@ -40,7 +40,7 @@ public class ProductController {
 	private FileStorageService fileStorageService;
 
 	@GetMapping()
-	public ResponseEntity<List<Product>> findAll() {
+	public ResponseEntity<List<Product>> listProduct() {
 		List<Product> products = proSer.listAll();
 		if (products.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -49,7 +49,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
+	public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
 		Optional<Product> product = proSer.get(id);
 
 		if (!product.isPresent()) {
@@ -59,7 +59,7 @@ public class ProductController {
 	}
 
 	@PostMapping(consumes = "multipart/form-data")
-	public ResponseEntity<?> createProducts(@RequestParam("code") String code, @RequestParam("name") String name,
+	public ResponseEntity<?> createProduct(@RequestParam("code") String code, @RequestParam("name") String name,
 			@RequestParam("proTypeId") Long proTypeId, @RequestParam("unit") String unit,
 			@RequestParam("price") Double price, @RequestParam("status") ProductStatus status,
 			@RequestParam("description") String description, @RequestParam("photo") MultipartFile photo) {
@@ -90,7 +90,7 @@ public class ProductController {
 	}
 
 	@PutMapping(value = "/updateProduct/{id}", consumes = "multipart/form-data")
-	public ResponseEntity<?> editProducts(@PathVariable("id") Long id, @RequestParam("code") String code,
+	public ResponseEntity<?> updateProducts(@PathVariable("id") Long id, @RequestParam("code") String code,
 			@RequestParam("name") String name, @RequestParam("proTypeId") Long proTypeId,
 			@RequestParam("unit") String unit, @RequestParam("price") Double price,
 			@RequestParam("status") ProductStatus status, @RequestParam("description") String description,
@@ -122,7 +122,7 @@ public class ProductController {
 	}
 
 	@PutMapping(value = "/updateWTProduct/{id}", consumes = "multipart/form-data")
-	public ResponseEntity<?> editWTProducts(@PathVariable("id") Long id, @RequestParam("code") String code,
+	public ResponseEntity<?> updateWTProducts(@PathVariable("id") Long id, @RequestParam("code") String code,
 			@RequestParam("name") String name, @RequestParam("proTypeId") Long proTypeId,
 			@RequestParam("unit") String unit, @RequestParam("price") Double price,
 			@RequestParam("status") ProductStatus status, @RequestParam("description") String description) {

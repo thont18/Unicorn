@@ -22,26 +22,26 @@ import com.example.demo.service.BillService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("api")
+@RequestMapping("/bills")
 public class BillController {
 	@Autowired
 	BillService billService;
-	@GetMapping("/bills")
+	@GetMapping()
 	public List<Bill> getBills(){
 		return this.billService.listAll();
 	}
-	@GetMapping("/bills/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Bill> getBillByID(@PathVariable Long id) {
 		Bill bill=billService.findById(id).orElseThrow(()->
 		new ResourceNotFoundExeption("Employee not exists with id= "+id));
 		return ResponseEntity.ok(bill);
 	}
-	@PostMapping("/bills")
+	@PostMapping()
 	public Bill createBill(@RequestBody Bill bill){
 		
 		return billService.save(bill);
 	}
-    @DeleteMapping("/bills/{id}")
+    @DeleteMapping("/{id}")
     public  Map<String,Boolean> deleteBill(@PathVariable Long id) {
     	Bill bill=billService.findById(id).orElseThrow(()->
 		new ResourceNotFoundExeption("Employee not exists with id= "+id));    	
@@ -50,7 +50,7 @@ public class BillController {
 		response.put("Deleted", Boolean.TRUE);
 		return response;
     }
-    @PutMapping("/bills/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Bill> updateBill(@RequestBody Bill bill, @PathVariable Long id) {
     	Bill ebill=billService.findById(id).orElseThrow(()->
 		new ResourceNotFoundExeption("Employee not exists with id= "+id));  

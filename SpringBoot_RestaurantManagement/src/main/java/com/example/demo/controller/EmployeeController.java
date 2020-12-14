@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.exception.ResourseNotFoundException;
+import com.example.demo.exception.ResultRespon;
 import com.example.demo.models.Employee;
 import com.example.demo.service.EmployeeService;
 
@@ -27,7 +31,7 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService empSer;
-	
+
 	@GetMapping
 	public List<Employee> listEmployee() {
 		return empSer.listAll();
@@ -38,14 +42,43 @@ public class EmployeeController {
 		return empSer.get(id);
 	}
 
-	@PutMapping("/{id}")
-	public Employee updateEmployee(@PathVariable("id") Long id, @RequestBody Employee employee,
-			BindingResult resuit) {
-		if (resuit.hasErrors()) {
-			throw new IllegalArgumentException("Invalid Employee data");
+//	@PutMapping("/{id}")
+//	public Employee updateEmployee(@PathVariable("id") Long id, @RequestBody Employee employee, BindingResult resuit) {
+//		if (resuit.hasErrors()) {
+//			throw new IllegalArgumentException("Invalid Employee data");
+//		}
+//		empSer.get(id);
+//		return empSer.save(employee);
+//	}
+
+	@PutMapping("/editEmployee/{id}")
+	public ResultRespon editEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
+		List<Employee> newEmployee = new ArrayList();
+		Employee oldEmployee = empSer.getId(id)
+				.orElseThrow(() -> new ResourseNotFoundException("Not found Employee with id: " + id));
+		if (this.empSer.check(employee.getIdentityCardNumber()).isEmpty()) {
+			oldEmployee.setIdentityCardNumber(employee.getIdentityCardNumber());
+			oldEmployee.setLastName(employee.getLastName());
+			oldEmployee.setFirstName(employee.getFirstName());
+			oldEmployee.setPhoneNumber(employee.getPhoneNumber());
+			oldEmployee.setAddress(employee.getAddress());
+			newEmployee.add(empSer.save(oldEmployee));
+			return new ResultRespon(0, "Update success", newEmployee);
+		} else {
+			if (this.empSer.check(employee.getIdentityCardNumber()).contains(employee.getIdentityCardNumber())) {
+				System.out.println(this.empSer.check(employee.getIdentityCardNumber()));
+				oldEmployee.setIdentityCardNumber(employee.getIdentityCardNumber());
+				oldEmployee.setLastName(employee.getLastName());
+				oldEmployee.setFirstName(employee.getFirstName());
+				oldEmployee.setPhoneNumber(employee.getPhoneNumber());
+				oldEmployee.setAddress(employee.getAddress());
+
+				newEmployee.add(empSer.save(oldEmployee));
+				return new ResultRespon(0, "Update success with new code Employee", newEmployee);
+			}else {
+				throw new ResourseNotFoundException("Duplicate code Employee");
+			}	
 		}
-		empSer.get(id);
-		return empSer.save(employee);
 	}
 
 	@DeleteMapping("/{id}")
@@ -60,7 +93,5 @@ public class EmployeeController {
 		responseHeaders.set("MyResponseHeader", "MyValue");
 		return new ResponseEntity<>(saveEmployee, responseHeaders, HttpStatus.CREATED);
 	}
-	
-	
-	
+
 }

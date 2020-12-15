@@ -1,13 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
 Build-Jdk-Spec: 14
-=======
-<<<<<<< HEAD
-Build-Jdk-Spec: 14
-=======
-Build-Jdk-Spec: 13
->>>>>>> 374b3560dfa9f8a6c37e3ba6082dd026b9b7c7ae
->>>>>>> aac7b6a43c155568919fa49cbb83df5ece15a4b9
 Implementation-Title: SpringBoot_RestaurantManagement
 Implementation-Version: 0.0.1-SNAPSHOT
 Created-By: Maven Integration for Eclipse

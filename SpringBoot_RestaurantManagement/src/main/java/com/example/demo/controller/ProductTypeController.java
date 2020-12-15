@@ -23,7 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.example.demo.models.ProductType;
 import com.example.demo.service.ProductTypeService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("productTypes")
 public class ProductTypeController {

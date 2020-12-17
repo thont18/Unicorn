@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ResourceNotFoundExeption;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.Bill;
 import com.example.demo.service.BillService;
 
@@ -33,7 +33,7 @@ public class BillController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Bill> getBillByID(@PathVariable Long id) {
 		Bill bill=billService.findById(id).orElseThrow(()->
-		new ResourceNotFoundExeption("Employee not exists with id= "+id));
+		new ResourceNotFoundException("Employee not exists with id= "+id));
 		return ResponseEntity.ok(bill);
 	}
 	@PostMapping()
@@ -44,7 +44,7 @@ public class BillController {
     @DeleteMapping("/{id}")
     public  Map<String,Boolean> deleteBill(@PathVariable Long id) {
     	Bill bill=billService.findById(id).orElseThrow(()->
-		new ResourceNotFoundExeption("Employee not exists with id= "+id));    	
+		new ResourceNotFoundException("Employee not exists with id= "+id));    	
     	billService.delete(id);
     	Map<String,Boolean> response=new HashMap<String, Boolean>();
 		response.put("Deleted", Boolean.TRUE);
@@ -53,7 +53,7 @@ public class BillController {
     @PutMapping("/{id}")
     public ResponseEntity<Bill> updateBill(@RequestBody Bill bill, @PathVariable Long id) {
     	Bill ebill=billService.findById(id).orElseThrow(()->
-		new ResourceNotFoundExeption("Employee not exists with id= "+id));  
+		new ResourceNotFoundException("Employee not exists with id= "+id));  
     	ebill.setBillDetails(bill.getBillDetails());
     	ebill.setEmployee(bill.getEmployee());
     	ebill.setPaymentDate(bill.getPaymentDate());

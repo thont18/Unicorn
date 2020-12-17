@@ -2,11 +2,11 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ResourseNotFoundException;
-import com.example.demo.exception.ResultRespon;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.ResultResponse;
 import com.example.demo.models.Employee;
 import com.example.demo.service.EmployeeService;
 
@@ -52,10 +51,10 @@ public class EmployeeController {
 //	}
 
 	@PutMapping("/editEmployee/{id}")
-	public ResultRespon editEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
+	public ResultResponse editEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
 		List<Employee> newEmployee = new ArrayList();
 		Employee oldEmployee = empSer.getId(id)
-				.orElseThrow(() -> new ResourseNotFoundException("Not found Employee with id: " + id));
+				.orElseThrow(() -> new ResourceNotFoundException("Not found Employee with id: " + id));
 		if (this.empSer.check(employee.getIdentityCardNumber()).isEmpty()) {
 			oldEmployee.setIdentityCardNumber(employee.getIdentityCardNumber());
 			oldEmployee.setLastName(employee.getLastName());
@@ -63,7 +62,7 @@ public class EmployeeController {
 			oldEmployee.setPhoneNumber(employee.getPhoneNumber());
 			oldEmployee.setAddress(employee.getAddress());
 			newEmployee.add(empSer.save(oldEmployee));
-			return new ResultRespon(0, "Update success", newEmployee);
+			return new ResultResponse(0, "Update success", newEmployee);
 		} else {
 			if (this.empSer.check(employee.getIdentityCardNumber()).contains(employee.getIdentityCardNumber())) {
 				System.out.println(this.empSer.check(employee.getIdentityCardNumber()));
@@ -74,9 +73,9 @@ public class EmployeeController {
 				oldEmployee.setAddress(employee.getAddress());
 
 				newEmployee.add(empSer.save(oldEmployee));
-				return new ResultRespon(0, "Update success with new code Employee", newEmployee);
+				return new ResultResponse(0, "Update success with new code Employee", newEmployee);
 			}else {
-				throw new ResourseNotFoundException("Duplicate code Employee");
+				throw new ResourceNotFoundException("Duplicate code Employee");
 			}	
 		}
 	}

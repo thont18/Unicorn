@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ResourceNotFoundExeption;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.BillDetails;
 import com.example.demo.models.BillDetailsId;
 import com.example.demo.service.BillDetailService;
@@ -45,7 +45,7 @@ public class BillDetailController {
 	@PutMapping("/{billId}_{producId}")
 	 public ResponseEntity<BillDetails> updateBillDetails(@RequestBody BillDetails billDetails, @PathVariable Long billId,@PathVariable Long producId) {
 		BillDetails billDt=bds.findById(billId,producId).orElseThrow(()->
-		new ResourceNotFoundExeption("Billdetail not exist"));  
+		new ResourceNotFoundException("Billdetail not exist"));  
 		billDt.setAmount(billDetails.getAmount());
 		billDt.setFinishedProductDate(billDetails.getFinishedProductDate());
 		billDt.setFinishedProductNum(billDetails.getFinishedProductNum());
@@ -58,7 +58,7 @@ public class BillDetailController {
 	@DeleteMapping("/{billId}_{productId}")
 	 public  Map<String,Boolean> deleteBill(@PathVariable Long billId,@PathVariable Long productId) {
 		BillDetails billDt=bds.findById(billId,productId).orElseThrow(()->
-		new ResourceNotFoundExeption("Billdetail not exist"));  
+		new ResourceNotFoundException("Billdetail not exist"));  
 		BillDetailsId billDetailsId=new BillDetailsId(billDt.getBill().getId(),billDt.getProduct().getId());
 		bds.delete(billDetailsId);
 		Map<String,Boolean> response=new HashMap<String, Boolean>();

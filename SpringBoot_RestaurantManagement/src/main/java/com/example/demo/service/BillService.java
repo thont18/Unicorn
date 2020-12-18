@@ -34,6 +34,14 @@ public class BillService {
 	public Optional<Bill> findById(Long id){
 		return billRepo.findById(id);
 	}
+	public List<Bill> findBillByName(String name){
+		List<Bill> list=billRepo.findBillByName(name);
+		return list;
+	}	
+	public List<Bill> findBillByDate(String date){
+		List<Bill> list=billRepo.findBillByDate(date);
+		return list;
+	}	
 	
 
 }

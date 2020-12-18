@@ -1,9 +1,17 @@
 package com.example.demo.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.models.Bill;
 
 public interface BillRepository extends JpaRepository<Bill, Long>{
+	@Query(value = "SELECT b.id, b.payment_date,b.payment_method,b.employee_id,b.promotion_type_id,b.book_table_id"
+			+ " FROM bills b, employees e WHERE b.employee_id=e.id and concat( e.last_name, e.first_name) like %?1%", nativeQuery = true)
+	public List<Bill> findBillByName( String key);
+	@Query(value = "SELECT * from bills where payment_date = ?1", nativeQuery = true)
+	public List<Bill> findBillByDate( String date);
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -28,6 +30,9 @@ public class BillController {
 	BillService billService;
 	@GetMapping()
 	public List<Bill> getBills(){
+		for (Bill bi : this.billService.listAll()) {
+			System.out.println(bi.getEmployee().getId());
+		}
 		return this.billService.listAll();
 	}
 	@GetMapping("/{id}")
@@ -35,6 +40,14 @@ public class BillController {
 		Bill bill=billService.findById(id).orElseThrow(()->
 		new ResourceNotFoundException("Employee not exists with id= "+id));
 		return ResponseEntity.ok(bill);
+	}
+	@GetMapping("/find")
+	public List<Bill> getBillByName(@RequestParam String name){
+		return this.billService.findBillByName(name);
+	}
+	@GetMapping("/findDate")
+	public List<Bill> getBillByDate(@RequestParam String date){
+		return this.billService.findBillByDate(date);
 	}
 	@PostMapping()
 	public Bill createBill(@RequestBody Bill bill){

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.models.Product;
 import com.example.demo.models.ProductStatus;
 import com.example.demo.models.ProductType;

@@ -1,19 +1,17 @@
 import React, { Component } from "react";
+import { Col, Container, Navbar } from "react-bootstrap";
 
-class Footer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
+export class Footer extends Component {
   render() {
+    let fullYear = new Date().getFullYear();
     return (
-      <footer className="bg-primary mt-3 text-light">
-        <div className="text-center py-3">
-          {" "}
-          &copy; 2020 Copyright by Unicorn - All right reserved
-        </div>
-      </footer>
+      <Navbar bg="primary" variant="dark" className="py-4 mt-3">
+        <Container>
+          <Col lg={12} className="text-center text-white">
+            <div>All rights reserved by &copy;Unicorn - {fullYear}</div>
+          </Col>
+        </Container>
+      </Navbar>
     );
   }
 }

@@ -2,23 +2,23 @@ package com.example.demo.exception;
 
 import java.util.List;
 
-public class ResultRespon {
+public class ResultResponse {
 	private int status;
 	private String message;
 	private List<?> data;
 
-	public ResultRespon(int status, String message, List<?> data) {
+	public ResultResponse(int status, String message, List<?> data) {
 		super();
 		this.status = status;
 		this.message = message;
 		this.data = data;
 	}
 
-	public ResultRespon() {
+	public ResultResponse() {
 		super();
 	}
 
-	public ResultRespon(int status, String message) {
+	public ResultResponse(int status, String message) {
 		super();
 		this.status = status;
 		this.message = message;

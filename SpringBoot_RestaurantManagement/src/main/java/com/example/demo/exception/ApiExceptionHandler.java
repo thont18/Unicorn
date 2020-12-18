@@ -14,8 +14,8 @@ public class ApiExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ResultRespon handleAllException(Exception ex, WebRequest request) {
+	public ResultResponse handleAllException(Exception ex, WebRequest request) {
 		// quá trình kiểm soat lỗi diễn ra ở đây
-		return new ResultRespon(1, ex.getLocalizedMessage());
+		return new ResultResponse(1, ex.getLocalizedMessage());
 	}
 }

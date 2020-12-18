@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ResourceNotFoundExeption;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.Ingredient;
 import com.example.demo.models.IngredientDetails;
 import com.example.demo.models.IngredientDetailsId;
@@ -49,7 +49,7 @@ public class IngredientDetailController {
 	@PutMapping ("/ingredientdetails/{ingredientId}_{productId}")
 	public ResponseEntity <IngredientDetails> updateIngredientDetails (@RequestBody IngredientDetails ingredientDetails,@PathVariable Long ingredientId,@PathVariable Long productId  ){
 		IngredientDetails ingre=ingdSer.findByid(ingredientId, productId).orElseThrow(()->
-		new ResourceNotFoundExeption("IngredientDetails not exist"));
+		new ResourceNotFoundException("IngredientDetails not exist"));
 		ingre.setAmount(ingredientDetails.getAmount());
 		return ResponseEntity.ok(ingdSer.save(ingre));
 		
@@ -58,7 +58,7 @@ public class IngredientDetailController {
 	@DeleteMapping ("/ingredientdetails/{ingredientId}_{productId}")
 	public Map<String,Boolean> deleteIngredientdetails(@PathVariable Long ingredientId,@PathVariable Long productId){
 		IngredientDetails ingDt=ingdSer.findByid(ingredientId, productId).orElseThrow(()->
-		new ResourceNotFoundExeption("IngredientDetails not exist"));
+		new ResourceNotFoundException("IngredientDetails not exist"));
 		IngredientDetailsId ingre= new IngredientDetailsId(ingDt.getIngredient().getId(),ingDt.getProduct().getId());
 		ingdSer.delete(ingre);
 		Map<String,Boolean> response= new HashMap<String, Boolean>();

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dao.EmployeeRepository;
@@ -40,4 +41,7 @@ public class EmployeeService {
 		return empRepo.checkIdentityCardNumber(newIdentityCardNumber);
 	}
 
+	public List<Employee> searhEmployee(@PathVariable ("name") String name){
+		return empRepo.search(name);
+	}
 }

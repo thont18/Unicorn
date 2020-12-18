@@ -75,9 +75,9 @@ public class EmployeeController {
 
 				newEmployee.add(empSer.save(oldEmployee));
 				return new ResultRespon(0, "Update success with new code Employee", newEmployee);
-			}else {
+			} else {
 				throw new ResourseNotFoundException("Duplicate code Employee");
-			}	
+			}
 		}
 	}
 
@@ -92,6 +92,11 @@ public class EmployeeController {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("MyResponseHeader", "MyValue");
 		return new ResponseEntity<>(saveEmployee, responseHeaders, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/search/{name}")
+	public List<Employee> searh(@PathVariable("name") String name) {
+		return empSer.searhEmployee(name);
 	}
 
 }

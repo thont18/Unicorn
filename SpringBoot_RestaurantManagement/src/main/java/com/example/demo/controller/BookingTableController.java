@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ResourceNotFoundExeption;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.BookingTable;
 import com.example.demo.models.BookingTableStatus;
 import com.example.demo.models.WorkingSite;
@@ -40,14 +40,14 @@ public class BookingTableController {
 	@GetMapping("/{id}")
 	public BookingTable getBookingTable(@PathVariable("id") Long id) {
 		return this.bookingTableService.get(id)
-				.orElseThrow(() -> new ResourceNotFoundExeption("Booking Table ID: " + id + " NOT FOUND"));
+				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
 	}
 
 	@PostMapping
 	public ResponseEntity<?> createBookingTable(@RequestParam("code") String code,
 			@RequestParam("status") BookingTableStatus status, @RequestParam("siteId") Long siteId) {
 		BookingTable newBookingTable = new BookingTable();
-		WorkingSite site = workingSiteService.get(siteId).orElseThrow(() -> new ResourceNotFoundExeption("Site ID: " + siteId + " NOT FOUND"));;
+		WorkingSite site = workingSiteService.get(siteId).orElseThrow(() -> new ResourceNotFoundException("Site ID: " + siteId + " NOT FOUND"));;
 		newBookingTable.setCode(code);
 		newBookingTable.setStatus(status);
 		newBookingTable.setSite(site);
@@ -62,8 +62,8 @@ public class BookingTableController {
 	public ResponseEntity<?> updateBookingTable(@PathVariable("id") Long id, @RequestParam("code") String code,
 			@RequestParam("status") BookingTableStatus status, @RequestParam("siteId") Long siteId) {
 		BookingTable existingBookingTable = bookingTableService.get(id)
-				.orElseThrow(() -> new ResourceNotFoundExeption("Booking Table ID: " + id + " NOT FOUND"));
-		WorkingSite site = workingSiteService.get(siteId).orElseThrow(() -> new ResourceNotFoundExeption("Site ID: " + siteId + " NOT FOUND"));;
+				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
+		WorkingSite site = workingSiteService.get(siteId).orElseThrow(() -> new ResourceNotFoundException("Site ID: " + siteId + " NOT FOUND"));;
 		existingBookingTable.setCode(code);
 		existingBookingTable.setStatus(status);
 		existingBookingTable.setSite(site);
@@ -77,7 +77,7 @@ public class BookingTableController {
 	@DeleteMapping(value = "/{id}")
 	public void deleteBookingTable(@PathVariable("id") Long id) {
 		BookingTable bookingTable = bookingTableService.get(id)
-				.orElseThrow(() -> new ResourceNotFoundExeption("Booking Table ID: " + id + " NOT FOUND"));
+				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
 		bookingTableService.delete(bookingTable.getId());
 	}
 }

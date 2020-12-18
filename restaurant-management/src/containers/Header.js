@@ -1,15 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
   render() {
     return (
-      <nav className="navbar navbar-expand-md navbar-dark bg-primary mt-3">
+      <nav className="navbar navbar-expand-md navbar-dark bg-primary">
         <div className="container">
           <Link className="navbar-brand" to="/">
             Restaurant Management
@@ -29,19 +25,19 @@ class Header extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item nav-link active">
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/home">
                   Home <span className="sr-only">(current)</span>
                 </Link>
               </li>
               <li className="nav-item nav-link">
                 <Link className="nav-link" to="/productTypes">
-                  Product Type <span className="sr-only">(current)</span>
+                  Product Types <span className="sr-only">(current)</span>
                 </Link>
               </li>
             </ul>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link to="/" className="nav-link">
+                <Link to="/home" className="nav-link">
                   Welcome to our Website
                 </Link>
               </li>

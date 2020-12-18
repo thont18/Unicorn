@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ResourceNotFoundExeption;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.Account;
 import com.example.demo.service.AccountService;
 
@@ -32,7 +32,7 @@ public class AccountController {
 
 	@GetMapping("/{id}")
 	public Account getAccount(@PathVariable("id") Long id) {
-		return this.accountService.get(id).orElseThrow(() -> new ResourceNotFoundExeption("Account ID: " + id + " NOT FOUND"));
+		return this.accountService.get(id).orElseThrow(() -> new ResourceNotFoundException("Account ID: " + id + " NOT FOUND"));
 	}
 
 	@PostMapping
@@ -42,13 +42,13 @@ public class AccountController {
 
 	@PutMapping("/{id}")
 	public Account updateAccount(@RequestBody @Validated Account account, @PathVariable("id") Long id) {
-		accountService.get(id).orElseThrow(() -> new ResourceNotFoundExeption("Account ID: " + id + " NOT FOUND"));
+		accountService.get(id).orElseThrow(() -> new ResourceNotFoundException("Account ID: " + id + " NOT FOUND"));
 		return accountService.save(account);
 	}
 
 	@DeleteMapping("/{id}")
 	public void deleteAccount(@PathVariable("id") Long id) {
-		Account account = accountService.get(id).orElseThrow(() -> new ResourceNotFoundExeption("Account ID: " + id + " NOT FOUND"));
+		Account account = accountService.get(id).orElseThrow(() -> new ResourceNotFoundException("Account ID: " + id + " NOT FOUND"));
 		accountService.delete(account.getId());
 	}
 

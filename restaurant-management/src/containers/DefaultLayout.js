@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
-import Header from "./header";
+import Header from "./Header";
 // import Home from "../pages/home";
 import routes from "../routes";
 import { Switch, Route } from "react-router-dom";
+import Footer from "./Footer";
 
 class DefaultLayout extends Component {
   state = {};
@@ -23,7 +24,7 @@ class DefaultLayout extends Component {
             ) : null;
           })}
         </Switch>
-        {/* <Home /> */}
+        <Footer />
       </Fragment>
     );
   }

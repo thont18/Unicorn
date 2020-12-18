@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "PROMOTION_TYPES")
@@ -22,8 +23,8 @@ public class PromotionType {
 	@Column(nullable = false, length = 100)
 	private String name;
 	
-	@JsonBackReference
-	@OneToMany(mappedBy = "promotionType", orphanRemoval = true, cascade = CascadeType.ALL)
+	 @JsonBackReference()
+	@OneToMany(mappedBy = "promotionType", orphanRemoval = true , cascade = CascadeType.ALL)
 	private List<Bill> bills;
 
 	public PromotionType(Long id, String name, List<Bill> bills) {

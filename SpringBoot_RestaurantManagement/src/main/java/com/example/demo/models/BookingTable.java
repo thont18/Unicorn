@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "BOOKING_TABLES")
@@ -31,15 +32,15 @@ public class BookingTable {
 	@Column(nullable = false)
 	private BookingTableStatus status;
 
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "site_id")
 	private WorkingSite site;
-	
-	@JsonBackReference
+
+	@JsonBackReference(/* value = "table1" */)
 	@OneToMany(mappedBy = "table", cascade = CascadeType.ALL)
 	private List<Bill> bills;
-	
+
 	public BookingTable() {
 		// TODO Auto-generated constructor stub
 	}

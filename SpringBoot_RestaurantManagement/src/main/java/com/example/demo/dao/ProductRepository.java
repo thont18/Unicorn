@@ -13,6 +13,7 @@ import com.example.demo.models.Product;
 import com.example.demo.models.ProductType;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+<<<<<<< HEAD
 	@Query("select p.code from Product as p where p.code = :newCode")
 	public List<String> checkCode(@RequestParam("newCode") String newCode);
 	
@@ -24,4 +25,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	@Query("FROM Product p ORDER BY p.name ASC")
 	Page<Product> findAllProductsAscending(Pageable pageable);
+=======
+	@Query("select code from Product where code =: newCode")
+	public List<String> checkCode(@RequestParam("code") String newCode);
+>>>>>>> 6ddf1d0982ab50f25d5eab1971628e54d96e0a90
 }

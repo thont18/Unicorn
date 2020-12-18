@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dao.ProductRepository;
 import com.example.demo.models.Product;
@@ -31,5 +32,9 @@ public class ProductService {
 
 	public void delete(Long id) {
 		repo.deleteById(id);
+	}
+	
+	public List<String> check(@RequestParam("newCode") String newCode) {
+		return repo.checkCode(newCode);
 	}
 }

@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +45,12 @@ public class EmployeeService {
 		return empRepo.checkIdentityCardNumber(newIdentityCardNumber);
 	}
 
-	public List<Employee> searhEmployee(@PathVariable ("name") String name){
-		return empRepo.search(name);
+	public Page<Employee> listAll(Pageable pageable, String searchName) {
+		return empRepo.findAllEmployee(pageable, searchName);
 	}
+
+	public Page<Employee> findAll(Pageable pageable) {
+		return empRepo.findAll(pageable);
+	}
+
 }

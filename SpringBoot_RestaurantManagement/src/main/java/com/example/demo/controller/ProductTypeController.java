@@ -23,7 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.example.demo.models.ProductType;
 import com.example.demo.service.ProductTypeService;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("productTypes")
 public class ProductTypeController {
@@ -38,7 +38,6 @@ public class ProductTypeController {
 //		}
 //		return new ResponseEntity<>(proTypes, HttpStatus.OK);
 //	}
-	
 	@GetMapping()
 	public ResponseEntity<Page<ProductType>> getProductTypes(int pageNumber, int pageSize, String sortBy,
 			String sortDir) {
@@ -69,17 +68,18 @@ public class ProductTypeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ProductType> updateProductType(@RequestBody @Validated ProductType productType, @PathVariable  Long id) {
+	public ResponseEntity<ProductType> updateProductType(@RequestBody @Validated ProductType productType,
+			@PathVariable Long id) {
 		ProductType proType = ser.get(id);
-		
+
 		if (proType == null) {
-            return new ResponseEntity<ProductType>(HttpStatus.NOT_FOUND);
-        }
-		
+			return new ResponseEntity<ProductType>(HttpStatus.NOT_FOUND);
+		}
+
 		proType.setName(productType.getName());
 		proType.setDescription(productType.getDescription());
 		ser.save(proType);
-		 return new ResponseEntity<ProductType>(proType, HttpStatus.OK);
+		return new ResponseEntity<ProductType>(proType, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

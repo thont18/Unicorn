@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.exception.ResourceNotFoundExeption;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.WorkingSite;
 import com.example.demo.service.WorkingSiteService;
 
@@ -33,7 +33,7 @@ public class WorkingSiteController {
 	@GetMapping("/{id}")
 	public WorkingSite getWorkingSite(@PathVariable("id") Long id) {
 		return this.workingSiteService.get(id)
-				.orElseThrow(() -> new ResourceNotFoundExeption("Site ID: " + id + " NOT FOUND"));
+				.orElseThrow(() -> new ResourceNotFoundException("Site ID: " + id + " NOT FOUND"));
 	}
 
 	@PostMapping
@@ -44,14 +44,14 @@ public class WorkingSiteController {
 	@PutMapping("/{id}")
 	public WorkingSite updateWorkingSite(@RequestBody @Validated WorkingSite workingSite, @PathVariable("id") Long id) {
 		workingSiteService.get(id)
-				.orElseThrow(() -> new ResourceNotFoundExeption("Site ID: " + id + " NOT FOUND"));
+				.orElseThrow(() -> new ResourceNotFoundException("Site ID: " + id + " NOT FOUND"));
 		return workingSiteService.save(workingSite);
 	}
 
 	@DeleteMapping("/{id}")
 	public void deleteWorkingSite(@PathVariable("id") Long id) {
 		WorkingSite workingSite = workingSiteService.get(id)
-				.orElseThrow(() -> new ResourceNotFoundExeption("Site ID: " + id + " NOT FOUND"));
+				.orElseThrow(() -> new ResourceNotFoundException("Site ID: " + id + " NOT FOUND"));
 		workingSiteService.delete(workingSite.getId());
 	}
 }

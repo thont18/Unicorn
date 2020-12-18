@@ -36,9 +36,6 @@ public class FileController {
 
 	@Autowired
 	private FileStorageService fileStorageService;
-	@Autowired
-	private ProductService productService;
-
 	@PostMapping("/uploadFile")
 	public UploadFileResponse uploadFile(@RequestParam("image") MultipartFile file) {
 		String fileName = fileStorageService.storeFile(file);

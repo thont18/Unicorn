@@ -21,11 +21,11 @@ public class ProductTypeService {
 	public List<ProductType> listAll() {
 		return repo.findAll();
 	}
-	
+
 	public Page<ProductType> listAll(Pageable pageable, String searchText) {
 		return repo.findAllTypes(pageable, searchText);
 	}
-	
+
 	public Page<ProductType> findAll(Pageable pageable) {
 //		return repo.findAllTypesAscending(pageable);
 		return repo.findAll(pageable);

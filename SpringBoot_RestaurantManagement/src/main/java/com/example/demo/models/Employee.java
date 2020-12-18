@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "EMPLOYEES")
@@ -35,16 +37,20 @@ public class Employee {
 	@Column(length = 20, nullable = false, unique = true)
 	private String identityCardNumber;
 
-
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "position_id")
 	private Position position;
 
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "site_id")
 	private WorkingSite site;
 
+//	 @JsonManagedReference
+	@JsonBackReference(/* value = "bill2" */)
+//	 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(mappedBy = "employee", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Bill> bills = new ArrayList<Bill>();
 

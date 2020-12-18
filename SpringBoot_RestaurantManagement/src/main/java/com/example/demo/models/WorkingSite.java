@@ -27,11 +27,11 @@ public class WorkingSite {
 	@Column(nullable = false)
 	private WorkingSiteStatus status;
 	
-	@JsonBackReference
+	@JsonBackReference(value = "site1")
 	@OneToMany(mappedBy = "site", cascade = CascadeType.ALL)
 	private List<Employee> employees;
 
-	@JsonBackReference(value = "site")
+	@JsonBackReference(value = "site2")
 	@OneToMany(mappedBy = "site", cascade = CascadeType.ALL)
 	private List<BookingTable> tables;
 

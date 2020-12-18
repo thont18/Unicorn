@@ -38,7 +38,6 @@ public class ProductTypeController {
 //		}
 //		return new ResponseEntity<>(proTypes, HttpStatus.OK);
 //	}
-
 	@GetMapping()
 	public ResponseEntity<Page<ProductType>> getProductTypes(int pageNumber, int pageSize, String sortBy,
 			String sortDir) {

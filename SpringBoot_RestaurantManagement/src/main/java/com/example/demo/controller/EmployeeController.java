@@ -2,8 +2,11 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.ResultResponse;
 import com.example.demo.models.Employee;
@@ -31,24 +33,28 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService empSer;
 
-	@GetMapping
-	public List<Employee> listEmployee() {
-		return empSer.listAll();
+//	@GetMapping()
+//	public List<Employee> listAllEmployee() {
+//		return empSer.listAll();
+//	}
+
+	@GetMapping("")
+	public ResponseEntity<Page<Employee>> getEmployee(int pageNumber, int pageSize, String sortBy, String sortDir) {
+		return new ResponseEntity<Page<Employee>>(
+				empSer.findAll(PageRequest.of(pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
+				HttpStatus.OK);
+	}
+
+	@GetMapping("/search/{searchName}")
+	public ResponseEntity<Page<Employee>> searchEmployee(Pageable pageable, @PathVariable String searchName) {
+		return new ResponseEntity<>(empSer.listAll(pageable, searchName), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public Employee getEmployee(@PathVariable("id") Long id) {
-		return empSer.get(id);
+	public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
+		return new ResponseEntity<Employee>(this.empSer.get(id), HttpStatus.OK);
 	}
-
-//	@PutMapping("/{id}")
-//	public Employee updateEmployee(@PathVariable("id") Long id, @RequestBody Employee employee, BindingResult resuit) {
-//		if (resuit.hasErrors()) {
-//			throw new IllegalArgumentException("Invalid Employee data");
-//		}
-//		empSer.get(id);
-//		return empSer.save(employee);
-//	}
 
 	@PutMapping("/editEmployee/{id}")
 	public ResultResponse editEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
@@ -74,9 +80,9 @@ public class EmployeeController {
 
 				newEmployee.add(empSer.save(oldEmployee));
 				return new ResultResponse(0, "Update success with new code Employee", newEmployee);
-			}else {
+			} else {
 				throw new ResourceNotFoundException("Duplicate code Employee");
-			}	
+			}
 		}
 	}
 

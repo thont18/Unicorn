@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.dao.IngredientRepository;
 import com.example.demo.models.Ingredient;
@@ -32,6 +33,9 @@ public class IngredientService {
 
 	public void delete(Long id) {
 		repo.deleteById(id);
+	}
+	public List<Ingredient> seachIngredient(@PathVariable("name") String name){
+		return repo.search(name);
 	}
 
 }

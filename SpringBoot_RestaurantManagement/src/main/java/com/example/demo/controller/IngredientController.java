@@ -51,5 +51,9 @@ public class IngredientController {
 	public void deleteIngredient(@PathVariable("id") Long id) {
 		this.ingSer.delete(id);
 	}
+	@GetMapping("ingredients/search/{name}")
+	public List<Ingredient> search(@PathVariable ("name") String name){
+		return ingSer.seachIngredient(name);
+	}
 
 }

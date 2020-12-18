@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ResourceNotFoundExeption;
 import com.example.demo.models.BookingTable;
 import com.example.demo.models.BookingTableStatus;
+
 import com.example.demo.models.WorkingSite;
 import com.example.demo.service.BookingTableService;
 import com.example.demo.service.WorkingSiteService;
@@ -79,5 +80,9 @@ public class BookingTableController {
 		BookingTable bookingTable = bookingTableService.get(id)
 				.orElseThrow(() -> new ResourceNotFoundExeption("Booking Table ID: " + id + " NOT FOUND"));
 		bookingTableService.delete(bookingTable.getId());
+	}
+	@GetMapping("/search/{name}")
+	public List<BookingTable> search(@PathVariable ("code") String code){
+		return bookingTableService.seachBookingTable(code);
 	}
 }

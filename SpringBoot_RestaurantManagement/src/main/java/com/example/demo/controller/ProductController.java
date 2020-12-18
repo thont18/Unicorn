@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.models.Product;
 import com.example.demo.models.ProductStatus;
 import com.example.demo.models.ProductType;
@@ -41,13 +44,17 @@ public class ProductController {
 	private FileStorageService fileStorageService;
 
 	@GetMapping()
-	public ResponseEntity<List<Product>> listProduct() {
+	public ResponseEntity<Page<Product>> listProduct(int pageNumber, int pageSize, String sortBy,
+			String sortDir) {
 		List<Product> products = proSer.listAll();
 		if (products.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(products, HttpStatus.OK);
-	}
+		return new ResponseEntity<Page<Product>>(
+				proSer.listAll(PageRequest.of(pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
+				HttpStatus.OK);
+	}	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
@@ -58,12 +65,19 @@ public class ProductController {
 		}
 		return new ResponseEntity<>(product.get(), HttpStatus.OK);
 	}
+	
+	@GetMapping("/search/{searchText}")
+	public ResponseEntity<Page<Product>> searchProducts(Pageable pageable, @PathVariable String searchText) {
+		return new ResponseEntity<>(proSer.listAll(pageable, searchText), HttpStatus.OK);
+	}
+	
 
 	@PostMapping(consumes = "multipart/form-data")
 	public ResponseEntity<?> createProduct(@RequestParam("code") String code, @RequestParam("name") String name,
 			@RequestParam("proTypeId") Long proTypeId, @RequestParam("unit") String unit,
 			@RequestParam("price") Double price, @RequestParam("status") ProductStatus status,
 			@RequestParam("description") String description, @RequestParam("photo") MultipartFile photo) {
+
 		if (photo.isEmpty()) {
 			HttpStatus.valueOf("Photo not found!");
 		}
@@ -83,11 +97,16 @@ public class ProductController {
 		crePro.setDescription(description);
 		crePro.setImage(fileDownloadUri);
 
-		this.proSer.save(crePro);
-		Product savePro = this.proSer.save(crePro);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.set("MyHeader", "MyValue");
-		return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+		List<String> checkCode = proSer.checkCode(code);
+		if (checkCode.isEmpty()) {
+			this.proSer.save(crePro);
+			Product savePro = this.proSer.save(crePro);
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.set("MyHeader", "MyValue");
+			return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+		} else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 	}
 
 	@PutMapping(value = "/updateProduct/{id}", consumes = "multipart/form-data")
@@ -115,12 +134,16 @@ public class ProductController {
 		crePro.setDescription(description);
 		crePro.setImage(fileDownloadUri);
 
-		this.proSer.save(crePro);
-		Product savePro = this.proSer.save(crePro);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.set("MyHeader", "MyValue");
-		return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
-	}
+		List<String> checkCode = proSer.checkCode(code);
+		if (checkCode.isEmpty()) {
+			this.proSer.save(crePro);
+			Product savePro = this.proSer.save(crePro);
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.set("MyHeader", "MyValue");
+			return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+		} else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	} 
 
 	@PutMapping(value = "/updateProductWTI/{id}", consumes = "multipart/form-data")
 	public ResponseEntity<?> updateProductWTI(@PathVariable("id") Long id, @RequestParam("code") String code,
@@ -139,11 +162,22 @@ public class ProductController {
 		crePro.setCode(code);
 		crePro.setDescription(description);
 
-		this.proSer.save(crePro);
-		Product savePro = this.proSer.save(crePro);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.set("MyHeader", "MyValue");
-		return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+		List<String> checkCode = proSer.checkCode(code);
+		if (checkCode.isEmpty()) {
+			this.proSer.save(crePro);
+			Product savePro = this.proSer.save(crePro);
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.set("MyHeader", "MyValue");
+			return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+		} else if (code.equals(crePro.getCode())) {
+			this.proSer.save(crePro);
+			Product savePro = this.proSer.save(crePro);
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.set("MyHeader", "MyValue");
+			return new ResponseEntity<>(savePro, httpHeaders, HttpStatus.CREATED);
+		} else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 	}
 
 	@DeleteMapping("/{id}")

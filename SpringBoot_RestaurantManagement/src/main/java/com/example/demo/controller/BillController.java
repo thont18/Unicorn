@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.Bill;
+import com.example.demo.models.ProductType;
 import com.example.demo.service.BillService;
 
 @RestController
@@ -29,11 +35,13 @@ public class BillController {
 	@Autowired
 	BillService billService;
 	@GetMapping()
-	public List<Bill> getBills(){
-		for (Bill bi : this.billService.listAll()) {
-			System.out.println(bi.getEmployee().getId());
-		}
-		return this.billService.listAll();
+	public ResponseEntity<Page<Bill>> getALLBills(int pageNumber, int pageSize, String sortBy,
+			String sortDir){
+		return new ResponseEntity<Page<Bill>>(
+				billService.findAll(PageRequest.of(pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
+				HttpStatus.OK);
+		//return this.billService.listAll();
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<Bill> getBillByID(@PathVariable Long id) {
@@ -42,12 +50,13 @@ public class BillController {
 		return ResponseEntity.ok(bill);
 	}
 	@GetMapping("/find")
-	public List<Bill> getBillByName(@RequestParam String name){
-		return this.billService.findBillByName(name);
+	public ResponseEntity<Page<Bill>> getBillByName(Pageable pageable,@RequestParam String name){
+		return new ResponseEntity<>(billService.listAllByName(pageable, name), HttpStatus.OK);
 	}
 	@GetMapping("/findDate")
-	public List<Bill> getBillByDate(@RequestParam String date){
-		return this.billService.findBillByDate(date);
+	public ResponseEntity<Page<Bill>> getBillByDate(Pageable pageable,@RequestParam String date){
+		//return this.billService.findBillByDate(date);
+		return new ResponseEntity<>(billService.listAllByDate(pageable, date), HttpStatus.OK);
 	}
 	@PostMapping()
 	public Bill createBill(@RequestBody Bill bill){

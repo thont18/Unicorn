@@ -10,6 +10,6 @@ import com.example.demo.models.Product;
 
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-	@Query("select code form Product where code =: newCode")
+	@Query("select code from Product where code =: newCode")
 	public List<String> checkCode(@RequestParam("code") String newCode);
 }

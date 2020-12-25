@@ -10,21 +10,24 @@ class Input extends Component {
       label,
       labelSize,
       placeholder,
+      value,
       readonly,
       rows,
       cols,
       inputRef,
       maxLength,
+      checked,
+      onChange,
       // add validations
       frmField,
       err,
       errMessage,
-      ...others
+      // ...others
     } = this.props;
     const size = labelSize ? labelSize : 3;
     const classLeft = `col-sm-${size} col-form-label`;
     const classRight = `col-sm-${12 - size}`;
-    // const numRows = rows ? rows : 1;
+    const numRows = rows ? rows : 1;
     const inputClass = `form-control ${err ? "is-invalid" : ""}`;
     return (
       <div className="form-group row">
@@ -32,7 +35,7 @@ class Input extends Component {
           {label}
         </label>
         <div className={classRight}>
-          {others["rows"] > 1 ? (
+          {/* {others["rows"] > 1 ? (
             <textarea
               ref={inputRef}
               id={id}
@@ -48,32 +51,42 @@ class Input extends Component {
               {...others}
               {...frmField}
             />
-          )}
-          {err ? <div className="invalid-feedback">{errMessage}</div> : null}
-          {/* {numRows === 1 ? (
+          )} */}
+          {numRows === 1 ? (
             <input
               ref={inputRef}
               type={type}
-              className="form-control"
+              // className="form-control"
+              className={inputClass}
               id={id}
               name={name}
+              value={value}
+              checked={checked}
+              onChange={onChange}
               maxLength={maxLength}
               placeholder={placeholder}
               readOnly={readonly}
+              {...frmField}
             />
           ) : (
             <textarea
               ref={inputRef}
               name={name}
               id={id}
-              className="form-control"
+              // className="form-control"
+              className={inputClass}
               maxLength={maxLength}
               cols={cols}
+              value={value}
+              checked={checked}
+              onChange={onChange}
               rows={numRows}
               placeholder={placeholder}
               readOnly={readonly}
+              {...frmField}
             ></textarea>
-          )} */}
+          )}
+          {err ? <div className="invalid-feedback">{errMessage}</div> : null}
         </div>
       </div>
     );

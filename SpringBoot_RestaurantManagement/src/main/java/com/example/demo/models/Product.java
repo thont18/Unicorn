@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "PRODUCTS")
@@ -37,7 +38,8 @@ public class Product {
 	@Column
 	private String description;
 
-	@JsonBackReference(value = "product1")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+//	@JsonBackReference(value = "product1")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_type_id")
 	private ProductType productType;

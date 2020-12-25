@@ -6,10 +6,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import "./style.css";
+import { toast } from "react-toastify";
 
 const ProductTypeList = (props) => {
   const [productTypes, setProductTypes] = useState([]);
-  const [typesPerPage, setTypesPerPage] = useState(6);
+  const [typesPerPage, setTypesPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -23,9 +24,8 @@ const ProductTypeList = (props) => {
       description: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string()
-        .required("Required")
-        .min(5, "Must be 5 characters or more."),
+      name: Yup.string().required("Required"),
+      // .min(5, "Must be 5 characters or more."),
     }),
     onSubmit: (values) => {
       console.log(values);
@@ -34,6 +34,24 @@ const ProductTypeList = (props) => {
   });
 
   const [modalShow, setModalShow] = useState(false);
+
+  // get product type ID
+  const [detail, setDetail] = useState(false);
+  const handleDetailClose = () => setDetail(false);
+  const getProductType = (e, dataId) => {
+    if (e) {
+      e.preventDefault();
+    }
+    setProductTypeId(dataId);
+    if (dataId > 0) {
+      // edit
+      productTypeService.get(dataId).then((res) => {
+        formik.setValues(res);
+        setDetail(true);
+      });
+    }
+  };
+
   const [id, setId] = useState(1);
   const [productTypeId, setProductTypeId] = useState(0);
 
@@ -95,12 +113,14 @@ const ProductTypeList = (props) => {
     if (productTypeId === null) {
       // add
       productTypeService.add(data).then((res) => {
+        toast.success("Add new data successfully");
         loadData(currentPage);
         handleModalClose();
       });
     } else {
       // update
       productTypeService.update(productTypeId, data).then((res) => {
+        toast.success("Update data successfully");
         loadData(currentPage);
         handleModalClose();
       });
@@ -110,6 +130,7 @@ const ProductTypeList = (props) => {
   const deleteRow = (e, dataId) => {
     e.preventDefault();
     productTypeService.remove(dataId).then((res) => {
+      toast.warning("A data has been deleted!");
       loadData(currentPage);
     });
   };
@@ -269,7 +290,7 @@ const ProductTypeList = (props) => {
                         }
                       ></div>
                     </th>
-                    <th scope="col">Description</th>
+                    {/* <th scope="col">Description</th> */}
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -279,8 +300,15 @@ const ProductTypeList = (props) => {
                       <tr key={productType.id}>
                         <th scope="row">{idx + 1}</th>
                         <td>{productType.name}</td>
-                        <td>{productType.description}</td>
+                        {/* <td>{productType.description}</td> */}
                         <td>
+                          <a
+                            href="/#"
+                            className="mr-2"
+                            onClick={(e) => getProductType(e, productType.id)}
+                          >
+                            <i className="fas fa-eye text-primary"></i>
+                          </a>
                           <a
                             href="/#"
                             className="mr-2"
@@ -379,11 +407,13 @@ const ProductTypeList = (props) => {
               err={formik.touched.name && formik.errors.name}
               errMessage={formik.errors.name}
             />
+            <div className="form-group row"></div>
             <Input
               id="txtDesc"
+              rows="10"
               type="text"
               label="Description"
-              maxLength="100"
+              maxLength="200"
               frmField={formik.getFieldProps("description")}
             />
           </Modal.Body>
@@ -402,6 +432,31 @@ const ProductTypeList = (props) => {
         </form>
       </Modal>
       {/* End modal */}
+
+      <Modal
+        show={detail}
+        onHide={handleDetailClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Product Type Detail</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Input
+            label="Name"
+            frmField={formik.getFieldProps("name")}
+            readonly
+          />
+          <Input
+            label="Description"
+            frmField={formik.getFieldProps("description")}
+            readonly
+            rows="10"
+          />
+        </Modal.Body>
+      </Modal>
     </Fragment>
   );
 };

@@ -11,10 +11,31 @@ import Popper from "popper.js";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import { BrowserRouter } from "react-router-dom";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// REDUX
+import { Provider } from "react-redux";
+import store from "./store";
+
+toast.configure({
+  autoClose: 3000,
+  draggable: false,
+  position: "top-right",
+  hideProgressBar: false,
+  newestOnTop: true,
+  closeOnClick: true,
+  rtl: false,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+});
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );
 

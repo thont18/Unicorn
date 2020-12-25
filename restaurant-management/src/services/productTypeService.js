@@ -1,6 +1,7 @@
 import api from "../services/api";
 
-const getAll = () => api.get(api.url.productTypes).then((res) => res.data);
+const getAll = () =>
+  api.get(`${api.url.productTypes}/getAllTypes`).then((res) => res.data);
 const get = (id) =>
   api.get(`${api.url.productTypes}/${id}`).then((res) => res.data);
 const add = (data) =>

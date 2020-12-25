@@ -34,6 +34,16 @@ class Header extends Component {
                   Product Types <span className="sr-only">(current)</span>
                 </Link>
               </li>
+              <li className="nav-item nav-link">
+                <Link className="nav-link" to="/products">
+                  Products <span className="sr-only">(current)</span>
+                </Link>
+              </li>
+              {/* <li className="nav-item nav-link">
+                <Link className="nav-link" to="/accounts">
+                  Accounts <span className="sr-only">(current)</span>
+                </Link>
+              </li> */}
             </ul>
             <ul className="navbar-nav">
               <li className="nav-item">

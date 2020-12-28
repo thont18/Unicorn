@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.ProductType;
 import com.example.demo.service.ProductTypeService;
 
@@ -30,6 +33,7 @@ public class ProductTypeController {
 	@Autowired
 	private ProductTypeService ser;
 
+<<<<<<< HEAD
 //	@GetMapping()
 //	public ResponseEntity<List<ProductType>> listProductType() {
 //		List<ProductType> proTypes = ser.listAll();
@@ -38,6 +42,16 @@ public class ProductTypeController {
 //		}
 //		return new ResponseEntity<>(proTypes, HttpStatus.OK);
 //	}
+=======
+	@GetMapping("/getAllTypes")
+	public ResponseEntity<List<ProductType>> listProductType() {
+		List<ProductType> proTypes = ser.listAll();
+		if (proTypes.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(proTypes, HttpStatus.OK);
+	}
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 	@GetMapping()
 	public ResponseEntity<Page<ProductType>> getProductTypes(int pageNumber, int pageSize, String sortBy,
 			String sortDir) {
@@ -55,7 +69,7 @@ public class ProductTypeController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ProductType> getProductType(@PathVariable("id") Long id) {
-		return new ResponseEntity<ProductType>(this.ser.get(id), HttpStatus.OK);
+		return new ResponseEntity<ProductType>(this.ser.get(id).orElseThrow(() -> new ResourceNotFoundException("Not found product type ID: " + id)), HttpStatus.OK);
 	}
 
 	@PostMapping()
@@ -70,7 +84,7 @@ public class ProductTypeController {
 	@PutMapping("/{id}")
 	public ResponseEntity<ProductType> updateProductType(@RequestBody @Validated ProductType productType,
 			@PathVariable Long id) {
-		ProductType proType = ser.get(id);
+		ProductType proType = ser.get(id).orElseThrow(() -> new ResourceNotFoundException("Not found product type ID: " + id));
 
 		if (proType == null) {
 			return new ResponseEntity<ProductType>(HttpStatus.NOT_FOUND);

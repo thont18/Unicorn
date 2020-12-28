@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -31,8 +32,8 @@ public class ProductTypeService {
 		return repo.findAll(pageable);
 	}
 
-	public ProductType get(Long id) {
-		return repo.findById(id).get();
+	public Optional<ProductType> get(Long id) {
+		return repo.findById(id);
 	}
 
 	public ProductType save(ProductType proType) {

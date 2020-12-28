@@ -34,21 +34,32 @@ import com.example.demo.service.BillService;
 public class BillController {
 	@Autowired
 	BillService billService;
+
 	@GetMapping()
+<<<<<<< HEAD
 	public ResponseEntity<Page<Bill>> getALLBills(int pageNumber, int pageSize, String sortBy,
 			String sortDir){
+=======
+	public ResponseEntity<Page<Bill>> getALLBills(int pageNumber, int pageSize, String sortBy, String sortDir) {
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 		return new ResponseEntity<Page<Bill>>(
 				billService.findAll(PageRequest.of(pageNumber, pageSize,
 						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
 				HttpStatus.OK);
+<<<<<<< HEAD
 		//return this.billService.listAll();
+=======
+		// return this.billService.listAll();
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Bill> getBillByID(@PathVariable Long id) {
-		Bill bill=billService.findById(id).orElseThrow(()->
-		new ResourceNotFoundException("Employee not exists with id= "+id));
+		Bill bill = billService.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee not exists with id= " + id));
 		return ResponseEntity.ok(bill);
 	}
+<<<<<<< HEAD
 	@GetMapping("/find")
 	public ResponseEntity<Page<Bill>> getBillByName(Pageable pageable,@RequestParam String name){
 		return new ResponseEntity<>(billService.listAllByName(pageable, name), HttpStatus.OK);
@@ -58,30 +69,46 @@ public class BillController {
 		//return this.billService.findBillByDate(date);
 		return new ResponseEntity<>(billService.listAllByDate(pageable, date), HttpStatus.OK);
 	}
+=======
+
+	@GetMapping("/find")
+	public ResponseEntity<Page<Bill>> getBillByName(Pageable pageable, @RequestParam String name) {
+		return new ResponseEntity<>(billService.listAllByName(pageable, name), HttpStatus.OK);
+	}
+
+	@GetMapping("/findDate")
+	public ResponseEntity<Page<Bill>> getBillByDate(Pageable pageable, @RequestParam String date) {
+		// return this.billService.findBillByDate(date);
+		return new ResponseEntity<>(billService.listAllByDate(pageable, date), HttpStatus.OK);
+	}
+
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 	@PostMapping()
-	public Bill createBill(@RequestBody Bill bill){
-		
+	public Bill createBill(@RequestBody Bill bill) {
+
 		return billService.save(bill);
 	}
-    @DeleteMapping("/{id}")
-    public  Map<String,Boolean> deleteBill(@PathVariable Long id) {
-    	Bill bill=billService.findById(id).orElseThrow(()->
-		new ResourceNotFoundException("Employee not exists with id= "+id));    	
-    	billService.delete(id);
-    	Map<String,Boolean> response=new HashMap<String, Boolean>();
+
+	@DeleteMapping("/{id}")
+	public Map<String, Boolean> deleteBill(@PathVariable Long id) {
+		Bill bill = billService.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee not exists with id= " + id));
+		billService.delete(id);
+		Map<String, Boolean> response = new HashMap<String, Boolean>();
 		response.put("Deleted", Boolean.TRUE);
 		return response;
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<Bill> updateBill(@RequestBody Bill bill, @PathVariable Long id) {
-    	Bill ebill=billService.findById(id).orElseThrow(()->
-		new ResourceNotFoundException("Employee not exists with id= "+id));  
-    	ebill.setBillDetails(bill.getBillDetails());
-    	ebill.setEmployee(bill.getEmployee());
-    	ebill.setPaymentDate(bill.getPaymentDate());
-    	ebill.setPaymentMethod(bill.getPaymentMethod());
-    	ebill.setPromotionType(bill.getPromotionType());
-    	ebill.setTable(bill.getTable());
-    	return ResponseEntity.ok(billService.save(ebill));
-    }
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Bill> updateBill(@RequestBody Bill bill, @PathVariable Long id) {
+		Bill ebill = billService.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee not exists with id= " + id));
+		ebill.setBillDetails(bill.getBillDetails());
+		ebill.setEmployee(bill.getEmployee());
+		ebill.setPaymentDate(bill.getPaymentDate());
+		ebill.setPaymentMethod(bill.getPaymentMethod());
+		ebill.setPromotionType(bill.getPromotionType());
+		ebill.setTable(bill.getTable());
+		return ResponseEntity.ok(billService.save(ebill));
+	}
 }

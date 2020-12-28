@@ -34,6 +34,7 @@ class Header extends Component {
                   Product Types <span className="sr-only">(current)</span>
                 </Link>
               </li>
+<<<<<<< HEAD
 
               <li className="nav-item nav-link">
                 <Link className="nav-link" to="/positions">
@@ -47,6 +48,18 @@ class Header extends Component {
                 </Link>
               </li>
 
+=======
+              <li className="nav-item nav-link">
+                <Link className="nav-link" to="/products">
+                  Products <span className="sr-only">(current)</span>
+                </Link>
+              </li>
+              {/* <li className="nav-item nav-link">
+                <Link className="nav-link" to="/accounts">
+                  Accounts <span className="sr-only">(current)</span>
+                </Link>
+              </li> */}
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
             </ul>
             <ul className="navbar-nav">
               <li className="nav-item">

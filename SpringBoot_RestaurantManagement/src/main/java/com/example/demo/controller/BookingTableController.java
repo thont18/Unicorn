@@ -3,6 +3,10 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.BookingTable;
 import com.example.demo.models.BookingTableStatus;
+
 import com.example.demo.models.WorkingSite;
 import com.example.demo.service.BookingTableService;
 import com.example.demo.service.WorkingSiteService;
@@ -32,15 +37,30 @@ public class BookingTableController {
 	@Autowired
 	private WorkingSiteService workingSiteService;
 
-	@GetMapping
-	public List<BookingTable> getAllBookingTables() {
-		return this.bookingTableService.findAll();
-	}
+//	@GetMapping
+//	public List<BookingTable> getAllBookingTables() {
+//		return this.bookingTableService.findAll();
+//	}
 
 	@GetMapping("/{id}")
 	public BookingTable getBookingTable(@PathVariable("id") Long id) {
 		return this.bookingTableService.get(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
+	}
+//
+	@GetMapping
+	public ResponseEntity<Page<BookingTable>> getBookingTable(int pageNumber, int pageSize, String sortBy,
+			String sortDir) {
+//		return new ResponseEntity<>(ser.findAll(pageable), HttpStatus.OK);
+		return new ResponseEntity<Page<BookingTable>>(
+				bookingTableService.listAll(PageRequest.of(pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
+				HttpStatus.OK);
+	}
+
+	@GetMapping("/search/{code}")
+	public ResponseEntity<Page<BookingTable>> searchIngredients(Pageable pageable, @PathVariable String code) {
+		return new ResponseEntity<>(bookingTableService.seachBookingTable(pageable, code), HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -80,4 +100,8 @@ public class BookingTableController {
 				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
 		bookingTableService.delete(bookingTable.getId());
 	}
+//	@GetMapping("/search/{code}")
+//	public List<BookingTable> search(@PathVariable ("code") String code){
+//		return bookingTableService.seachBookingTable(code);
+//	}
 }

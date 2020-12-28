@@ -42,6 +42,7 @@ public class EmployeeController {
 	@Autowired
 	private WorkingSiteService siteSer;
 
+<<<<<<< HEAD
 	@GetMapping("/getAllEmployees")
 	public List<Employee> listAllEmployee() {
 		return empSer.listAll();
@@ -60,6 +61,26 @@ public class EmployeeController {
 		return new ResponseEntity<>(empSer.listAll(pageable, searchName), HttpStatus.OK);
 	}
 
+=======
+//	@GetMapping()
+//	public List<Employee> listAllEmployee() {
+//		return empSer.listAll();
+//	}
+
+	@GetMapping("")
+	public ResponseEntity<Page<Employee>> getEmployee(int pageNumber, int pageSize, String sortBy, String sortDir) {
+		return new ResponseEntity<Page<Employee>>(
+				empSer.findAll(PageRequest.of(pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
+				HttpStatus.OK);
+	}
+
+	@GetMapping("/search/{searchName}")
+	public ResponseEntity<Page<Employee>> searchEmployee(Pageable pageable, @PathVariable String searchName) {
+		return new ResponseEntity<>(empSer.listAll(pageable, searchName), HttpStatus.OK);
+	}
+
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 	@GetMapping("/{id}")
 	public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
 		return new ResponseEntity<Employee>(this.empSer.get(id), HttpStatus.OK);

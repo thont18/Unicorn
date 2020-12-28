@@ -11,6 +11,22 @@ import Popper from "popper.js";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import { BrowserRouter } from "react-router-dom";
 
+// add react toastify 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.configure({
+  autoClose: 3000,
+  draggable: false,
+  position: "top-right",
+  hideProgressBar: false,
+  newestOnTop: true,
+  closeOnClick: true,
+  rtl: false,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+});
+
 ReactDOM.render(
   <BrowserRouter>
     <App />

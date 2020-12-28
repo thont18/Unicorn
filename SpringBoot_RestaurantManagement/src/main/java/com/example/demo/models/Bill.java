@@ -14,12 +14,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @Entity
 @Table(name = "BILLS")
@@ -32,19 +34,25 @@ public class Bill {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private PaymentMethod paymentMethod;
-	@JsonBackReference
-	@OneToMany(mappedBy = "bill",/*orphanRemoval = true,*/ cascade = CascadeType.ALL)
+	
+	@JsonBackReference(value = "bill1")
+	@OneToMany(mappedBy = "bill",orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<BillDetails> billDetails;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne(/*fetch = FetchType.LAZY ,optional=false*/optional=false)
 	@JoinColumn(name = "book_table_id")
 	private BookingTable table;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	
+	@ManyToOne(/*fetch = FetchType.LAZY ,optional=false*/optional=false)
 	@JoinColumn(name = "employee_id")
+
 	private Employee employee;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@ManyToOne(/* fetch = FetchType.LAZY */optional=false)
 	@JoinColumn(name = "promotion_type_id")
 	private PromotionType promotionType;
 

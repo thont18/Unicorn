@@ -3,6 +3,8 @@ import axios from "axios";
 const url = {
   baseUrl: "http://localhost:8080",
   productTypes: "/productTypes",
+  positions: "/positions",
+  employees: "/employees",
 };
 
 const instance = axios.create({

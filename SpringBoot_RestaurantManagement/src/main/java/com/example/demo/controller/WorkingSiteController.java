@@ -25,7 +25,7 @@ public class WorkingSiteController {
 	@Autowired
 	private WorkingSiteService workingSiteService;
 
-	@GetMapping
+	@GetMapping("/getAllSites")
 	public List<WorkingSite> getAllWorkingSites() {
 		return this.workingSiteService.findAll();
 	}

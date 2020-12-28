@@ -16,7 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 // REDUX
 import { Provider } from "react-redux";
-import store from "./store";
+//import store from "./store";
+import store from "./config/store";
 
 toast.configure({
   autoClose: 3000,

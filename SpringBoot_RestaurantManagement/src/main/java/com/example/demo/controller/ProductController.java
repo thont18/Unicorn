@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,17 +49,17 @@ public class ProductController {
 		return this.proSer.listAll();
 	}
 
-//	@GetMapping()
-//	public ResponseEntity<Page<Product>> listProduct(int pageNumber, int pageSize, String sortBy, String sortDir) {
-//		List<Product> products = proSer.listAll();
-//		if (products.isEmpty()) {
-//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<Page<Product>>(
-//				proSer.listAll(PageRequest.of(pageNumber, pageSize,
-//						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
-//				HttpStatus.OK);
-//	}
+	@GetMapping()
+	public ResponseEntity<Page<Product>> listProduct(int pageNumber, int pageSize, String sortBy, String sortDir) {
+		List<Product> products = proSer.listAll();
+		if (products.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Page<Product>>(
+				proSer.listAll(PageRequest.of(pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
+				HttpStatus.OK);
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {

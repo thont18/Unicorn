@@ -1,6 +1,7 @@
 import Welcome from "./containers/Welcome";
 import ProductTypeList from "./pages/product-types/ProductTypeList";
 import ProductList from "./pages/products/ProductList";
+import WorkingSiteList from "./pages/working-sites/workingSiteList";
 
 const routes = [
   { path: "/", exact: true, name: "Home", component: Welcome },
@@ -16,6 +17,11 @@ const routes = [
     exact: true,
     name: "Product",
     component: ProductList,
+  },{
+    path: "/workingSites",
+    exact: true,
+    name: "Working Sites",
+    component: WorkingSiteList,
   },
 ];
 

@@ -4,6 +4,7 @@ const url = {
   baseUrl: "http://localhost:8080",
   productTypes: "/productTypes",
   products: "/products",
+  workingSites: "/sites"
 };
 
 const instance = axios.create({

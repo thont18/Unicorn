@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +29,12 @@ public class WorkingSiteController {
 	private WorkingSiteService workingSiteService;
 
 	@GetMapping
-	public List<WorkingSite> getAllWorkingSites() {
-		return this.workingSiteService.findAll();
+	public ResponseEntity<Page<WorkingSite>> getWorkingSites(int pageNumber, int pageSize, String sortBy,
+			String sortDir) {
+		return new ResponseEntity<Page<WorkingSite>>(
+				workingSiteService.findAll(PageRequest.of(pageNumber, pageSize,
+						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")

@@ -16,8 +16,12 @@ class Input extends Component {
       cols,
       inputRef,
       maxLength,
+<<<<<<< HEAD
+      className,
+=======
       checked,
       onChange,
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
       // add validations
       frmField,
       err,

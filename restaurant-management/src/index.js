@@ -11,13 +11,21 @@ import Popper from "popper.js";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import { BrowserRouter } from "react-router-dom";
 
+<<<<<<< HEAD
+// add react toastify 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+=======
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // REDUX
 import { Provider } from "react-redux";
-import store from "./store";
+//import store from "./store";
+import store from "./config/store";
 
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 toast.configure({
   autoClose: 3000,
   draggable: false,

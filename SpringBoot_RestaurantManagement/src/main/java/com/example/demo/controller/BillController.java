@@ -36,12 +36,21 @@ public class BillController {
 	BillService billService;
 
 	@GetMapping()
+<<<<<<< HEAD
+	public ResponseEntity<Page<Bill>> getALLBills(int pageNumber, int pageSize, String sortBy,
+			String sortDir){
+=======
 	public ResponseEntity<Page<Bill>> getALLBills(int pageNumber, int pageSize, String sortBy, String sortDir) {
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 		return new ResponseEntity<Page<Bill>>(
 				billService.findAll(PageRequest.of(pageNumber, pageSize,
 						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
 				HttpStatus.OK);
+<<<<<<< HEAD
+		//return this.billService.listAll();
+=======
 		// return this.billService.listAll();
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 	}
 
 	@GetMapping("/{id}")
@@ -50,6 +59,17 @@ public class BillController {
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not exists with id= " + id));
 		return ResponseEntity.ok(bill);
 	}
+<<<<<<< HEAD
+	@GetMapping("/find")
+	public ResponseEntity<Page<Bill>> getBillByName(Pageable pageable,@RequestParam String name){
+		return new ResponseEntity<>(billService.listAllByName(pageable, name), HttpStatus.OK);
+	}
+	@GetMapping("/findDate")
+	public ResponseEntity<Page<Bill>> getBillByDate(Pageable pageable,@RequestParam String date){
+		//return this.billService.findBillByDate(date);
+		return new ResponseEntity<>(billService.listAllByDate(pageable, date), HttpStatus.OK);
+	}
+=======
 
 	@GetMapping("/find")
 	public ResponseEntity<Page<Bill>> getBillByName(Pageable pageable, @RequestParam String name) {
@@ -62,6 +82,7 @@ public class BillController {
 		return new ResponseEntity<>(billService.listAllByDate(pageable, date), HttpStatus.OK);
 	}
 
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 	@PostMapping()
 	public Bill createBill(@RequestBody Bill bill) {
 

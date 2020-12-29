@@ -58,6 +58,19 @@ public class Employee {
 		super();
 	}
 
+	public Employee(String lastName, String firstName, String phoneNumber, String address, String identityCardNumber,
+			Position position, WorkingSite site, List<Bill> bills) {
+		super();
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.identityCardNumber = identityCardNumber;
+		this.position = position;
+		this.site = site;
+		this.bills = bills;
+	}
+
 	public Employee(Long id, String lastName, String firstName, String phoneNumber, String address,
 			String identityCardNumber) {
 		super();
@@ -140,6 +153,5 @@ public class Employee {
 	public void setBills(List<Bill> bills) {
 		this.bills = bills;
 	}
-
 
 }

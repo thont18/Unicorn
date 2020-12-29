@@ -45,7 +45,11 @@ public class ProductService {
 		repo.deleteById(id);
 	}
 	
+<<<<<<< HEAD
+	public List<String> check(@RequestParam("newCode") String newCode) {
+=======
 	public List<String> checkCode(@RequestParam("newCode") String newCode) {
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 		return repo.checkCode(newCode);
 	}
 }

@@ -33,6 +33,16 @@ public class ProductTypeController {
 	@Autowired
 	private ProductTypeService ser;
 
+<<<<<<< HEAD
+//	@GetMapping()
+//	public ResponseEntity<List<ProductType>> listProductType() {
+//		List<ProductType> proTypes = ser.listAll();
+//		if (proTypes.isEmpty()) {
+//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<>(proTypes, HttpStatus.OK);
+//	}
+=======
 	@GetMapping("/getAllTypes")
 	public ResponseEntity<List<ProductType>> listProductType() {
 		List<ProductType> proTypes = ser.listAll();
@@ -41,6 +51,7 @@ public class ProductTypeController {
 		}
 		return new ResponseEntity<>(proTypes, HttpStatus.OK);
 	}
+>>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 	@GetMapping()
 	public ResponseEntity<Page<ProductType>> getProductTypes(int pageNumber, int pageSize, String sortBy,
 			String sortDir) {

@@ -23,6 +23,16 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    "react-select": "^3.1.1",
+=======
+<<<<<<< HEAD
+    "react-toastify": "^6.2.0",
+=======
+>>>>>>> 717a06e9612174598764008560ed6cefee22f001
+>>>>>>> 4d18ed23e216c987e5935301608c363267c7ed93
     "react-slick": "^0.27.13",
     "react-toastify": "^6.2.0",
     "redux": "^4.0.5",

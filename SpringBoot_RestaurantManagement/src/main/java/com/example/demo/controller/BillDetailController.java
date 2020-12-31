@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.models.Bill;
 import com.example.demo.models.BillDetails;
 import com.example.demo.models.BillDetailsId;
+import com.example.demo.models.Product;
 import com.example.demo.service.BillDetailService;
+import com.example.demo.service.BillService;
+import com.example.demo.service.ProductService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -28,18 +33,30 @@ import com.example.demo.service.BillDetailService;
 public class BillDetailController {
 	@Autowired
 	private BillDetailService bds;
+	@Autowired
+	private BillService billService;
+	@Autowired
+	private ProductService productService;
 	
 	@GetMapping()
 	public List<BillDetails> getBillDetail(){
 		return this.bds.listAll();
 	}
-	@GetMapping("/{billId}_{producId}")
-	public Optional<BillDetails> getBillDetailsById(@PathVariable Long billId,@PathVariable Long producId) {
-		return this.bds.findById(billId,producId);
+	@GetMapping("/{billId}")
+	public List<BillDetails> getBillDetailsByBillId(@PathVariable Long billId) {
+		return this.bds.listAllByBillId(billId);
+	}
+	@GetMapping("/")
+	public Optional<BillDetails> getBillDetail(@RequestParam Long billId,@RequestParam Long productId) {
+		return this.bds.findById(billId,productId);
 	}
 	@PostMapping("/{billId}_{producId}")
 	public BillDetails createBillDetail(@RequestBody BillDetails billDetails,@PathVariable Long billId,@PathVariable Long producId) {
 	
+		Bill bill=billService.get(billId);
+		Product product=productService.get(producId).get();
+		billDetails.setBill(bill);
+		billDetails.setProduct(product);
 		return bds.save(billDetails);
 	}
 	@PutMapping("/{billId}_{producId}")

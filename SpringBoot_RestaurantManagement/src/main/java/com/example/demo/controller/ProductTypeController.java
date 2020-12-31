@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+ package com.example.demo.controller;
 
 import java.util.List;
 
@@ -32,30 +32,15 @@ import com.example.demo.service.ProductTypeService;
 public class ProductTypeController {
 	@Autowired
 	private ProductTypeService ser;
-
-<<<<<<< HEAD
-//	@GetMapping()
-//	public ResponseEntity<List<ProductType>> listProductType() {
-//		List<ProductType> proTypes = ser.listAll();
-//		if (proTypes.isEmpty()) {
-//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<>(proTypes, HttpStatus.OK);
-//	}
-=======
-	@GetMapping("/getAllTypes")
-	public ResponseEntity<List<ProductType>> listProductType() {
-		List<ProductType> proTypes = ser.listAll();
-		if (proTypes.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(proTypes, HttpStatus.OK);
+	@GetMapping("/getAllProductType")	
+	public List<ProductType> getAllProducts() {
+		return this.ser.listAll();
 	}
->>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
+
+
 	@GetMapping()
 	public ResponseEntity<Page<ProductType>> getProductTypes(int pageNumber, int pageSize, String sortBy,
 			String sortDir) {
-//		return new ResponseEntity<>(ser.findAll(pageable), HttpStatus.OK);
 		return new ResponseEntity<Page<ProductType>>(
 				ser.findAll(PageRequest.of(pageNumber, pageSize,
 						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),

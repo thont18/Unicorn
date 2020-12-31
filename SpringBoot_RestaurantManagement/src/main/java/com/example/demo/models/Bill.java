@@ -40,19 +40,60 @@ public class Bill {
 	private List<BillDetails> billDetails;
 	
 
-	@ManyToOne(/*fetch = FetchType.LAZY ,optional=false*/optional=false)
+	@ManyToOne(/*fetch = FetchType.LAZY ,optional=false*/)
 	@JoinColumn(name = "book_table_id")
 	private BookingTable table;
 	
+	private double totalPrice;
+	
 
 	
-	@ManyToOne(/*fetch = FetchType.LAZY ,optional=false*/optional=false)
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Bill(Long id, Date paymentDate, PaymentMethod paymentMethod, List<BillDetails> billDetails,
+			BookingTable table, double totalPrice, Employee employee, PromotionType promotionType) {
+		super();
+		this.id = id;
+		this.paymentDate = paymentDate;
+		this.paymentMethod = paymentMethod;
+		this.billDetails = billDetails;
+		this.table = table;
+		this.totalPrice = totalPrice;
+		this.employee = employee;
+		this.promotionType = promotionType;
+	}
+
+	public Bill(Long id, BookingTable table) {
+		super();
+		this.id = id;
+		this.table = table;
+	}
+
+	public Bill(Date paymentDate, PaymentMethod paymentMethod, List<BillDetails> billDetails, BookingTable table,
+			double totalPrice, Employee employee, PromotionType promotionType) {
+		super();
+		this.paymentDate = paymentDate;
+		this.paymentMethod = paymentMethod;
+		this.billDetails = billDetails;
+		this.table = table;
+		this.totalPrice = totalPrice;
+		this.employee = employee;
+		this.promotionType = promotionType;
+	}
+
+	@ManyToOne(/*fetch = FetchType.LAZY ,optional=false*/)
 	@JoinColumn(name = "employee_id")
 
 	private Employee employee;
 	
 	
-	@ManyToOne(/* fetch = FetchType.LAZY */optional=false)
+	@ManyToOne(/* fetch = FetchType.LAZY */)
 	@JoinColumn(name = "promotion_type_id")
 	private PromotionType promotionType;
 
@@ -125,6 +166,16 @@ public class Bill {
 
 	public Bill() {
 		super();
+	}
+
+	public Bill(Long id, Date paymentDate, PaymentMethod paymentMethod, List<BillDetails> billDetails,
+			BookingTable table) {
+		super();
+		this.id = id;
+		this.paymentDate = paymentDate;
+		this.paymentMethod = paymentMethod;
+		this.billDetails = billDetails;
+		this.table = table;
 	}
 
 	public Bill(Long id, Date paymentDate, PaymentMethod paymentMethod, List<BillDetails> billDetails,

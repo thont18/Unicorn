@@ -25,7 +25,9 @@ public class BillDetailService {
 	public BillDetails save(BillDetails billDetails) {
 		return billDetailRepository.save(billDetails);
 	}
-	
+	public List<BillDetails> listAllByBillId(Long billId){
+		return billDetailRepository.listAllByBillId(billId);
+	}
 	public BillDetails get(BillDetailsId id) {
 		
 		return billDetailRepository.findById(id).get();
@@ -37,6 +39,9 @@ public class BillDetailService {
 	public Optional<BillDetails> findById(Long id, Long id2) {
 		return billDetailRepository.findById(new BillDetailsId(id, id2));
 	}
+//	public void UpdateAmount(Long id, Long id2) {
+//		 billDetailRepository.UpdateAmount(id,id2);
+//	}
 	
 
 }

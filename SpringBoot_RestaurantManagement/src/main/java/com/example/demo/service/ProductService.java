@@ -28,6 +28,9 @@ public class ProductService {
 	public List<Product> listAll() {
 		return repo.findAll();
 	}
+	public List<Product> findPro(String searchText) {
+		return repo.FindProd(searchText);
+	}
 	
 	public Page<Product> listAll(Pageable pageable) {
 		return repo.findAllProductsAscending(pageable);
@@ -44,12 +47,8 @@ public class ProductService {
 	public void delete(Long id) {
 		repo.deleteById(id);
 	}
-	
-<<<<<<< HEAD
-	public List<String> check(@RequestParam("newCode") String newCode) {
-=======
+
 	public List<String> checkCode(@RequestParam("newCode") String newCode) {
->>>>>>> 8f4859ad739749e36073266c8243523d11bc0a09
 		return repo.checkCode(newCode);
 	}
 }

@@ -22,8 +22,24 @@ public class PromotionType {
 	private Long id;
 	@Column(nullable = false, length = 100)
 	private String name;
+	private float percent;
 	
-	 @JsonBackReference()
+	 public PromotionType(String name, float percent, List<Bill> bills) {
+		super();
+		this.name = name;
+		this.percent = percent;
+		this.bills = bills;
+	}
+
+	public float getPercent() {
+		return percent;
+	}
+
+	public void setPercent(float percent) {
+		this.percent = percent;
+	}
+
+	@JsonBackReference()
 	@OneToMany(mappedBy = "promotionType", orphanRemoval = true , cascade = CascadeType.ALL)
 	private List<Bill> bills;
 

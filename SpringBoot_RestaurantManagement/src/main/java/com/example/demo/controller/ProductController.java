@@ -48,6 +48,10 @@ public class ProductController {
 	public List<Product> getAllProducts() {
 		return this.proSer.listAll();
 	}
+	@GetMapping("/find")
+	public List<Product> find(@RequestParam String searchText) {
+		return this.proSer.findPro(searchText);
+	}
 
 	@GetMapping()
 	public ResponseEntity<Page<Product>> listProduct(int pageNumber, int pageSize, String sortBy, String sortDir) {

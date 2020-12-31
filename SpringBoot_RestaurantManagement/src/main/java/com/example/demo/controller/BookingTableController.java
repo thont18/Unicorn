@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,10 +38,10 @@ public class BookingTableController {
 	@Autowired
 	private WorkingSiteService workingSiteService;
 
-//	@GetMapping
-//	public List<BookingTable> getAllBookingTables() {
-//		return this.bookingTableService.findAll();
-//	}
+	@GetMapping("/getAllTable")
+	public List<BookingTable> getAllBookingTables() {
+		return this.bookingTableService.findAll();
+	}
 
 	@GetMapping("/{id}")
 	public BookingTable getBookingTable(@PathVariable("id") Long id) {
@@ -76,6 +77,14 @@ public class BookingTableController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.set("MyHeader", "MyValue");
 		return new ResponseEntity<>(bookingTable, httpHeaders, HttpStatus.CREATED);
+	}
+	@PutMapping(value = "/put/{id}")
+	public ResponseEntity<?> updateStatusBookingTable(@RequestBody BookingTable bookingTable,@PathVariable("id") Long id) {
+		BookingTable existingBookingTable = bookingTableService.get(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.set("MyHeader", "MyValue");
+		return new ResponseEntity<>(bookingTableService.save(bookingTable), httpHeaders, HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/{id}")

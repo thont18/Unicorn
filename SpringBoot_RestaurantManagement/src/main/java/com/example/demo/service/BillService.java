@@ -28,7 +28,7 @@ public class BillService {
 		return billRepo.findAllBillByName(pageable, searchText);
 	}
 	public Page<Bill> findAll(Pageable pageable) {
-		return billRepo.findAll(pageable);
+		return billRepo.getAllBill(pageable);
 	}
 	public Bill save(Bill bill) {
 		return billRepo.save(bill);
@@ -36,6 +36,9 @@ public class BillService {
 
 	public Bill get(Long id) {
 		return billRepo.findById(id).get();
+	}
+	public Bill getBillByTableId(int tableId) {
+		return billRepo.getBillByTableId(tableId);
 	}
 
 	public void delete(Long id) {
@@ -52,6 +55,9 @@ public class BillService {
 		List<Bill> list=billRepo.findBillByDate(date);
 		return list;
 	}	
+	public Long getToTalPriceById(Long id) {
+		return  billRepo.getToTalPriceById(id);
+	}
 	
 
 }

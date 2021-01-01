@@ -78,7 +78,11 @@ const Order = (props) => {
 				if (res === null) {
 					setProductId(proId);
 					let tempDate = new Date();
-					let date = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate();
+					let a = tempDate.getMonth();
+					let b = tempDate.getDate();
+					if (a < 10) a = '0' + (tempDate.getMonth() + 1);
+					if (b < 10) b = '0' + tempDate.getDate();
+					let date = tempDate.getFullYear() + '-' + a + '-' + b;
 					var data = {
 						id: {
 							billId: billId,
@@ -360,21 +364,25 @@ const Order = (props) => {
 										role="tabpanel"
 										aria-labelledby="pills-profile-tab"
 									>
-										<div class="input-group mt-2 w-50 ml-5">
+										<div className="input-group mt-2 w-50 ml-5">
 											<input
 												type="text"
 												value={name}
-												class="form-control w-50"
+												className="form-control w-50"
 												aria-label="Recipient's username"
 												aria-describedby="basic-addon2"
 												onChange={searchChange}
 											/>
-											<div class="input-group-append">
-												<button class=" btn btn-info" id="basic-addon2" onClick={searchData}>
+											<div className="input-group-append">
+												<button
+													className=" btn btn-info"
+													id="basic-addon2"
+													onClick={searchData}
+												>
 													Find
 												</button>
 												<button
-													class=" btn btn-warning"
+													className=" btn btn-warning"
 													id="basic-addon2"
 													onClick={cancelSearch}
 												>

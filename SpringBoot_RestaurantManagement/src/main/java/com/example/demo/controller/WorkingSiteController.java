@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +30,6 @@ public class WorkingSiteController {
 	@Autowired
 	private WorkingSiteService workingSiteService;
 
-<<<<<<< HEAD
 	@GetMapping
 	public ResponseEntity<Page<WorkingSite>> getWorkingSites(int pageNumber, int pageSize, String sortBy,
 			String sortDir) {
@@ -36,13 +37,11 @@ public class WorkingSiteController {
 				workingSiteService.findAll(PageRequest.of(pageNumber, pageSize,
 						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
 				HttpStatus.OK);
-=======
+	}
 	@GetMapping("/getAllSites")
 	public List<WorkingSite> getAllWorkingSites() {
 		return this.workingSiteService.findAll();
->>>>>>> 717a06e9612174598764008560ed6cefee22f001
 	}
-
 	@GetMapping("/{id}")
 	public WorkingSite getWorkingSite(@PathVariable("id") Long id) {
 		return this.workingSiteService.get(id)

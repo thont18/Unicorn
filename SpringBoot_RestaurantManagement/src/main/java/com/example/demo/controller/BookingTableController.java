@@ -48,11 +48,10 @@ public class BookingTableController {
 		return this.bookingTableService.get(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
 	}
-//
+
 	@GetMapping
 	public ResponseEntity<Page<BookingTable>> getBookingTable(int pageNumber, int pageSize, String sortBy,
 			String sortDir) {
-//		return new ResponseEntity<>(ser.findAll(pageable), HttpStatus.OK);
 		return new ResponseEntity<Page<BookingTable>>(
 				bookingTableService.listAll(PageRequest.of(pageNumber, pageSize,
 						sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())),
@@ -64,11 +63,24 @@ public class BookingTableController {
 		return new ResponseEntity<>(bookingTableService.seachBookingTable(pageable, code), HttpStatus.OK);
 	}
 
+//	@PostMapping
+//	public ResponseEntity<?> createBookingTable(@RequestParam("code") String code,
+//			@RequestParam("status") BookingTableStatus status, @RequestParam("siteId") Long siteId) {
+//		BookingTable newBookingTable = new BookingTable();
+//		WorkingSite site = workingSiteService.get(siteId).orElseThrow(() -> new ResourceNotFoundException("Site ID: " + siteId + " NOT FOUND"));;
+//		newBookingTable.setCode(code);
+//		newBookingTable.setStatus(status);
+//		newBookingTable.setSite(site);
+//
+//		BookingTable bookingTable = bookingTableService.save(newBookingTable);
+//		HttpHeaders httpHeaders = new HttpHeaders();
+//		httpHeaders.set("MyHeader", "MyValue");
+//		return new ResponseEntity<>(bookingTable, httpHeaders, HttpStatus.CREATED);
+//	}
 	@PostMapping
-	public ResponseEntity<?> createBookingTable(@RequestParam("code") String code,
-			@RequestParam("status") BookingTableStatus status, @RequestParam("siteId") Long siteId) {
+	public ResponseEntity<?> createBookingTable(@RequestParam("code") String code, @RequestParam("status") BookingTableStatus status, @RequestParam("site_id") Long site_id) {
 		BookingTable newBookingTable = new BookingTable();
-		WorkingSite site = workingSiteService.get(siteId).orElseThrow(() -> new ResourceNotFoundException("Site ID: " + siteId + " NOT FOUND"));;
+		WorkingSite site = workingSiteService.get(site_id).orElseThrow(() -> new ResourceNotFoundException("Site ID: " + site_id + " NOT FOUND"));;
 		newBookingTable.setCode(code);
 		newBookingTable.setStatus(status);
 		newBookingTable.setSite(site);
@@ -89,10 +101,10 @@ public class BookingTableController {
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateBookingTable(@PathVariable("id") Long id, @RequestParam("code") String code,
-			@RequestParam("status") BookingTableStatus status, @RequestParam("siteId") Long siteId) {
+			@RequestParam("status") BookingTableStatus status, @RequestParam("site_id") Long site_id) {
 		BookingTable existingBookingTable = bookingTableService.get(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Booking Table ID: " + id + " NOT FOUND"));
-		WorkingSite site = workingSiteService.get(siteId).orElseThrow(() -> new ResourceNotFoundException("Site ID: " + siteId + " NOT FOUND"));;
+		WorkingSite site = workingSiteService.get(site_id).orElseThrow(() -> new ResourceNotFoundException("Site ID: " + site_id + " NOT FOUND"));;
 		existingBookingTable.setCode(code);
 		existingBookingTable.setStatus(status);
 		existingBookingTable.setSite(site);

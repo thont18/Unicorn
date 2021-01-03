@@ -53,11 +53,11 @@ const WorkingSiteList = (props) => {
     axios
       .get(
         "http://localhost:8080/sites?pageNumber=" +
-          currentPage +
-          "&pageSize=" +
-          typesPerPage +
-          "&sortBy=name&sortDir=" +
-          sortDir
+        currentPage +
+        "&pageSize=" +
+        typesPerPage +
+        "&sortBy=name&sortDir=" +
+        sortDir
       )
       .then((res) => res.data)
       .then((data) => {
@@ -188,11 +188,11 @@ const WorkingSiteList = (props) => {
     axios
       .get(
         "http://localhost:8080/sites/search/" +
-          search +
-          "?page=" +
-          currentPage +
-          "&size=" +
-          typesPerPage
+        search +
+        "?page=" +
+        currentPage +
+        "&size=" +
+        typesPerPage
       )
       .then((response) => response.data)
       .then((data) => {
@@ -384,6 +384,7 @@ const WorkingSiteList = (props) => {
               err={formik.touched.name && formik.errors.name}
               errMessage={formik.errors.name}
             />
+
             <div className="form-group row">
               <label className="col-3">Status</label>
               <div className="col-9">

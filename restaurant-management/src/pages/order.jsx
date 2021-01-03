@@ -1,5 +1,4 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import TableService from './../services/TableService';
 import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import './order.css';
 import productService from './../services/productService';
@@ -8,7 +7,7 @@ import { toast } from 'react-toastify';
 import billDetailService from './../services/BillDetailService';
 import billService from './../services/BillService';
 import PromotionTypeService from './../services/promotionTypeService';
-import { get, set } from 'store';
+import TableService from '../services/TableService';
 
 const Order = (props) => {
 	const [table, setTable] = useState([]);

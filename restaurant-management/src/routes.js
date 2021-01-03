@@ -7,6 +7,7 @@ import Order from './pages/order';
 import Bill from './pages/Bill';
 import BillDetail from './pages/BillDetail';
 import WorkingSiteList from './pages/working-sites/workingSiteList';
+import TableList from './pages/tables/Tables';
 const routes = [
 	{ path: '/', exact: true, name: 'Home', component: Welcome },
 	{ path: '/order', exact: true, name: 'Order', component: Order },
@@ -54,6 +55,12 @@ const routes = [
 		name: 'Working Sites',
 		component: WorkingSiteList,
 	},
+	{
+		path: '/tables',
+		exact: true,
+		name: 'Tables',
+		component: TableList,
+	}
 ];
 
 export default routes;
